@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+  <Alias Key="Model" Value="ClinicModel" />
+  <Alias Key="Target" Value="ClinicModel.Store" />
+  <EntityContainerMapping CdmEntityContainer="ClinicModelContainer" StorageEntityContainer="ClinicModelTargetContainer" />
+</Mapping>
