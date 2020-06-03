@@ -14,10 +14,8 @@ namespace ClinicApp
             // Инициализация команды
             OpenWinPatientCommand = new RoutedCommand("OpenWinPatientCommand", typeof(MainWindow));
             CloseWinPatientCommand = new RoutedCommand("CloseWinPatientCommand", typeof(MainWindow));
-            AddVisitCommand = new RoutedCommand("AddVisitCommand", typeof(MainWindow));
-            EditVisitCommand = new RoutedCommand("EditVisitCommand", typeof(MainWindow));
-            AddDoctorCommand = new RoutedCommand("AddDoctorCommand", typeof(MainWindow));
-            EditDoctorCommand = new RoutedCommand("EditDoctorCommand", typeof(MainWindow));
+            OpenWinVisitCommand = new RoutedCommand("OpenWinVisitCommand", typeof(MainWindow));
+            CloseWinVisitCommand = new RoutedCommand("CloseWinVisitCommand", typeof(MainWindow));
             OpenDeleteDialogCommand = new RoutedCommand("OpenDeleteDialogDoctorCommand", typeof(MainWindow));
             CloseDeleteDialogCommand = new RoutedCommand("CloseDeleteDialogDoctorCommand", typeof(MainWindow));
             SelectMenuItemCommand = new RoutedCommand("SelectMenuItemCommand", typeof(MainWindow));
@@ -26,10 +24,8 @@ namespace ClinicApp
 
         public static RoutedCommand OpenWinPatientCommand { get; private set; }
         public static RoutedCommand CloseWinPatientCommand { get; private set; }
-        public static RoutedCommand AddVisitCommand { get; private set; }
-        public static RoutedCommand EditVisitCommand { get; private set; }
-        public static RoutedCommand AddDoctorCommand { get; private set; }
-        public static RoutedCommand EditDoctorCommand { get; private set; }
+        public static RoutedCommand OpenWinVisitCommand { get; private set; }
+        public static RoutedCommand CloseWinVisitCommand { get; private set; }
         public static RoutedCommand OpenDeleteDialogCommand { get; private set; }
         public static RoutedCommand CloseDeleteDialogCommand { get; private set; }
         public static RoutedCommand SelectMenuItemCommand { get; private set; }

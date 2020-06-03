@@ -29,6 +29,7 @@ namespace ClinicApp
         {
             db = new ApplicationContext();
             db.Patients.Load();
+            db.Visits.Load();
             ClinicVM = new ClinicViewModel();
             DataContext = db;
             InitializeComponent();
@@ -39,8 +40,12 @@ namespace ClinicApp
         #region Пациенты
         private void OpenWinPatientCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            ClinicVM.SelectedPatient = (Patient)(e.Parameter ?? new Patient());
-            DialogHost_Patient.DataContext = ClinicVM.SelectedPatient;
+            using (ApplicationContext context = new ApplicationContext())
+            {
+                ClinicVM.SelectedPatient = new Patient();
+                if (e.Parameter != null) ClinicVM.SelectedPatient = context.Patients.Where(p => p.Id == ((Patient)e.Parameter).Id).FirstOrDefault();
+                DialogHost_Patient.DataContext = ClinicVM.SelectedPatient;
+            }
             DialogHost_Patient.IsOpen = true;
         }
         private void OpenWinPatientCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -53,78 +58,65 @@ namespace ClinicApp
             {
                 if (!(e.Parameter as Button).IsCancel)
                 {
-                    if (db.Entry(ClinicVM.SelectedPatient).State == EntityState.Detached)
-                        db.Entry(ClinicVM.SelectedPatient).State = EntityState.Added;
+                    if (db.Patients.Where(p => p.Id == ClinicVM.SelectedPatient.Id).Count() > 0)
+                    {
+                        var _patient = db.Patients.Where(p => p.Id == ClinicVM.SelectedPatient.Id).FirstOrDefault();
+                        _patient.Name = ClinicVM.SelectedPatient.Name;
+                        _patient.Surname = ClinicVM.SelectedPatient.Surname;
+                        _patient.Patronymic = ClinicVM.SelectedPatient.Patronymic;
+                        _patient.Sex = ClinicVM.SelectedPatient.Sex;
+                        _patient.BirthDate = ClinicVM.SelectedPatient.BirthDate;
+                        _patient.Address = ClinicVM.SelectedPatient.Address;
+                        ClinicVM.SelectedPatient = null;
+                    }
+                    else db.Entry(ClinicVM.SelectedPatient).State = EntityState.Added;
                     db.SaveChanges();
                 }
             }
             catch (Exception ex)
             {
                 logger.Error($"В методе: {ex.TargetSite} возникло исключение: { ex.Message}");
-                MessageBox.Show($"Ошибка сохранения в базе данных. Вызовите системного администратора.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ошибка сохранения в базе данных. Обратитесь к администратору.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             DialogHost_Patient.IsOpen = false;
         }
         private void CloseWinPatientCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = true;
+            e.CanExecute = (!Validation.GetHasError(textBox_Name) && !Validation.GetHasError(textBox_Surname) && !Validation.GetHasError(datePicker_BirthDate)) || (e.Parameter as Button).IsCancel;
         }
         #endregion
+
         #region Посещения
-        private void AddVisitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void OpenWinVisitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
 
         }
-        private void AddVisitCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        private void OpenWinVisitCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
         }
-        private void EditVisitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void CloseWinVisitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
 
         }
-        private void EditVisitCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-        private void DeleteVisitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-
-        }
-        private void DeleteVisitCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        private void CloseWinVisitCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
         }
         #endregion
-        #region Врачи
-        private void AddDoctorCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
 
-        }
-        private void AddDoctorCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-        private void EditDoctorCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-
-        }
-        private void EditDoctorCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-        private void DeleteDoctorCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-
-        }
-        private void DeleteDoctorCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-        #endregion
         private void OpenDeleteDialogCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            ClinicVM.SelectedPatient = (Patient)e.Parameter;
+            DialogHost_DeleteRow.Tag = (e.Source as DataGrid).Name;
+            switch (DialogHost_DeleteRow.Tag.ToString())
+            {
+                case "DGPatientList":
+                    ClinicVM.SelectedPatient = (Patient)e.Parameter;
+                    break;
+                case "DGVisitList":
+                    ClinicVM.SelectedVisit = (Visit)e.Parameter;
+                    break;
+            }
             DialogHost_DeleteRow.IsOpen = true;
         }
         private void OpenDeleteDialogCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -137,14 +129,22 @@ namespace ClinicApp
             {
                 if (!(e.Parameter as Button).IsCancel)
                 {
-                    db.Entry(ClinicVM.SelectedPatient).State = EntityState.Deleted;
+                    switch (DialogHost_DeleteRow.Tag.ToString())
+                    {
+                        case "DGPatientList":
+                            db.Patients.Remove(ClinicVM.SelectedPatient);
+                            break;
+                        case "DGVisitList":
+                            db.Visits.Remove(ClinicVM.SelectedVisit);
+                            break;
+                    }
                     db.SaveChanges();
                 }
             }
             catch (Exception ex)
             {
                 logger.Error($"В методе: {ex.TargetSite} возникло исключение: { ex.Message}");
-                MessageBox.Show($"Ошибка удаления записи. Вызовите системного администратора.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ошибка удаления записи. Обратитесь к администратору.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             DialogHost_DeleteRow.IsOpen = false;
         }

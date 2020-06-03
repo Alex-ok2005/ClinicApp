@@ -157,6 +157,7 @@ namespace ClinicApp
     public class Visit : INotifyPropertyChanged 
     {
         private bool initialVisit;
+        private string initialVisitToString;
         private DateTime dateVisit;
         private string diagnosis;
         private int patientId;
@@ -171,6 +172,16 @@ namespace ClinicApp
             {
                 initialVisit = value;
                 OnPropertyChanged("InitialVisit");
+            }
+        }
+        [NotMapped]
+        public string InitialVisitToString
+        {
+            get { return initialVisitToString; }
+            set
+            {
+                initialVisitToString = value;
+                OnPropertyChanged("InitialVisitToString");
             }
         }
         [Required]
@@ -204,6 +215,23 @@ namespace ClinicApp
         }
         [ForeignKey("PatientId")]
         public virtual Patient Patient { get; set; }
+        public Visit()
+        {
+            PropertyChanged += Visit_PropertyChanged;
+        }
+        public void Visit_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "InitialVisit")
+                switch (InitialVisit)
+                {
+                    case true:
+                        InitialVisitToString = "первичный";
+                        break;
+                    case false:
+                        InitialVisitToString = "вторичный";
+                        break;
+                };
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = "")

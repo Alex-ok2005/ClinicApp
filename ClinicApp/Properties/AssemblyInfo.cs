@@ -8,11 +8,11 @@ using System.Windows;
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
 [assembly: AssemblyTitle("ClinicApp")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Example clinic Application")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Alexander Shapovalov, mailto: Alex-ok2005@yandex.ru")]
 [assembly: AssemblyProduct("ClinicApp")]
-[assembly: AssemblyCopyright("Copyright ©  2020")]
+[assembly: AssemblyCopyright("Copyright © Alexander Shapovalov 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

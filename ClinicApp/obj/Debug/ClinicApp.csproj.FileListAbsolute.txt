@@ -30,4 +30,5 @@ K:\Projects\ClinicApp\ClinicApp\bin\Debug\ru\EntityFramework.resources.dll
 K:\Projects\ClinicApp\ClinicApp\bin\Debug\ru\EntityFramework.SqlServer.resources.dll
 K:\Projects\ClinicApp\ClinicApp\obj\Debug\ClinicApp_Content.g.cs
 K:\Projects\ClinicApp\ClinicApp\obj\Debug\App.baml
+K:\Projects\ClinicApp\ClinicApp\obj\Debug\GeneratedInternalTypeHelper.g.cs
 K:\Projects\ClinicApp\ClinicApp\obj\Debug\ClinicApp.csprojAssemblyReference.cache
