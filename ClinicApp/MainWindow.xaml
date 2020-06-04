@@ -15,7 +15,10 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         SnapsToDevicePixels="True"
-        Title="Медицинская клиника" Height="450" Width="967" Closing="Window_Closing" WindowStartupLocation="CenterScreen">
+        Title="Медицинская клиника" Height="472" Width="980" Closing="Window_Closing" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <CollectionViewSource x:Key="Patient_Key" Source="{Binding Patients.Local}" />
+    </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="local:RelayCommand.OpenWinPatientCommand" Executed="OpenWinPatientCommand_Executed" CanExecute="OpenWinPatientCommand_CanExecute"/>
         <CommandBinding Command="local:RelayCommand.CloseWinPatientCommand" Executed="CloseWinPatientCommand_Executed" CanExecute="CloseWinPatientCommand_CanExecute"/>
@@ -100,9 +103,10 @@
                     <RowDefinition Height="1*"></RowDefinition>
                     <RowDefinition Height="30"></RowDefinition>
                 </Grid.RowDefinitions>
-                <TabControl Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" 
+                <TabControl x:Name="tabControl" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" 
                         Background="{x:Null}" 
                         Margin="30,0,30,10" 
+                        SelectedIndex="{Binding DataContext.ActiveTabItem, Source={x:Reference dummyElement}}"
                         BorderThickness="0,1,0,0" Padding="0">
                 <TabControl.BorderBrush>
                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowFrameColorKey}}"/>
@@ -181,9 +185,8 @@
                         </DataGrid>
                     </Grid>
                 </TabItem>
-                <TabItem Header="" 
-                     IsSelected="{Binding ElementName=RB_2, Path=IsChecked}"
-                     Height="0" Width="0">
+                <TabItem Header="" Height="0" Width="0"
+                     IsSelected="{Binding ElementName=RB_2, Path=IsChecked}">
                         <DataGrid 
                             Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" 
                             AutoGenerateColumns="False"
@@ -256,9 +259,9 @@
                         </DataGrid>
                     </TabItem>
             </TabControl>
-                <StackPanel  Orientation="Horizontal" Grid.ColumnSpan="2"
-                     Margin="30,0,0,-25" Grid.Row="0" Grid.Column="0"
-                     HorizontalAlignment="Left" VerticalAlignment="Center" >
+            <StackPanel  Orientation="Horizontal" Grid.ColumnSpan="2"
+                Margin="30,0,0,-26" Grid.Row="0" Grid.Column="0"
+                HorizontalAlignment="Left" VerticalAlignment="Center" >
                 <RadioButton x:Name="RB_1"
                 Style="{StaticResource MaterialDesignTabRadioButton}"
                 Margin="0"
@@ -273,10 +276,9 @@
             <StackPanel Grid.Column="0" Grid.Row="2"
                     Grid.ColumnSpan="2"
                     Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,30,0">
-                <TextBlock>
-                Записей: 0
-                </TextBlock>
-            </StackPanel>
+                    <TextBlock Text="Записей: "/>
+                    <TextBlock x:Name="textBlock_CountRecords" Text="{Binding CountRecords}" />
+                </StackPanel>
             </Grid>
         </materialDesign:DrawerHost>
         <materialDesign:DialogHost x:Name="DialogHost_Patient"
@@ -367,7 +369,7 @@
                             <ComboBox 
                                 x:Name="CBSex"
                                 materialDesign:HintAssist.Hint="Пол"
-                                Width="97"
+                                Width="98"
                                 Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                                 materialDesign:TextFieldAssist.HasClearButton="True"
                                 Margin="20,0,0,0" 
@@ -389,7 +391,7 @@
                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                 materialDesign:TextFieldAssist.HasClearButton="True"
                                 VerticalAlignment="Center"
-                                Text="{Binding Address}" />
+                                Text="{Binding Address}" Margin="0,-2,0,0" />
                         </StackPanel>
                     </StackPanel>
                     <StackPanel
@@ -419,7 +421,7 @@
             DialogTheme="Inherit"
             Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="2" >
             <materialDesign:DialogHost.DialogContent>
-                <Grid Width="300" Height="360">
+                <Grid Width="310" Height="230">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40" />
                         <RowDefinition />
@@ -429,7 +431,7 @@
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <materialDesign:PackIcon Kind="UserOutline"
+                    <materialDesign:PackIcon Kind="PersonClockOutline"
                         Grid.Row="0" Grid.Column="0"
                         Width="23" Height="23" Margin="6,0,0,0" VerticalAlignment="Center" />
                     <TextBlock VerticalAlignment="Center"
@@ -437,97 +439,72 @@
                         Grid.Row="0" Grid.Column="0"
                         Grid.ColumnSpan="2" FontSize="14"
                         Margin="10,0,0,0" FontWeight="Bold"
-                        Text="ПАЦИЕНТ" />
+                        Text="ПОСЕЩЕНИЕ" />
                     <Separator
                         Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
                         Style="{StaticResource MaterialDesignSeparator}" Margin="0,30,0,0" />
-                    <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="30,0">
-                        <StackPanel>
-                            <TextBox x:Name="textBox_Surname1"
-                                materialDesign:HintAssist.Hint="Фамилия"
-                                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                materialDesign:TextFieldAssist.HasClearButton="True"
-                                VerticalAlignment="Center" MaxLength="50">
-                                <TextBox.Text>
-                                    <Binding Path="Surname" UpdateSourceTrigger="PropertyChanged">
-                                        <Binding.ValidationRules>
-                                            <domain:NotEmptyValidationRule
-                                                ValidatesOnTargetUpdated="True" xmlns:domain="clr-namespace:MaterialDesignDemo.Domain" />
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
-                            <TextBox x:Name="textBox_Name1"
-                                materialDesign:HintAssist.Hint="Имя"
-                                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                materialDesign:TextFieldAssist.HasClearButton="True"
-                                VerticalAlignment="Center" MaxLength="50">
-                                <TextBox.Text>
-                                    <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
-                                        <Binding.ValidationRules>
-                                            <domain:NotEmptyValidationRule
-                                                ValidatesOnTargetUpdated="True" xmlns:domain="clr-namespace:MaterialDesignDemo.Domain" />
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
-                            <TextBox
-                                materialDesign:HintAssist.Hint="Отчество"
-                                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                materialDesign:TextFieldAssist.HasClearButton="True"
-                                VerticalAlignment="Center" MaxLength="50"
-                                Text="{Binding Patronymic}" />
-                            <TextBox
-                                materialDesign:HintAssist.Hint="Телефон"
-                                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                materialDesign:TextFieldAssist.HasClearButton="True"
-                                VerticalAlignment="Center" MaxLength="50"
-                                Text="{Binding Phone}" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <DatePicker x:Name="datePicker_BirthDate1"
-                                materialDesign:HintAssist.Hint="Дата рождения"
-                                Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="0,3,0,0"
-                                VerticalAlignment="Center"
-                                materialDesign:TextFieldAssist.HasClearButton="True"
-                                Width="120">
-                                <DatePicker.SelectedDate>
-                                    <Binding Path="BirthDate" UpdateSourceTrigger="PropertyChanged">
-                                        <Binding.ValidationRules>
-                                            <domain:FutureDateValidationRule
-                                                ValidatesOnTargetUpdated="True" xmlns:domain="clr-namespace:MaterialDesignDemo.Domain" />
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </DatePicker.SelectedDate>
-                            </DatePicker>
-                            <ComboBox 
-                                x:Name="CBSex1"
-                                materialDesign:HintAssist.Hint="Пол"
-                                Width="97"
-                                Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                                materialDesign:TextFieldAssist.HasClearButton="True"
-                                Margin="20,0,0,0" 
-                                SelectedValue="{Binding Sex}">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Converter={x:Static local:SexToBooleanConverter.Instance}}"/>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                                <ComboBox.Items>
-                                    <system:Boolean>True</system:Boolean>
-                                    <system:Boolean>False</system:Boolean>
-                                </ComboBox.Items>
-                            </ComboBox>
-                        </StackPanel>
-                        <StackPanel>
-                            <TextBox
-                                materialDesign:HintAssist.Hint="Адрес проживания"
-                                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                materialDesign:TextFieldAssist.HasClearButton="True"
-                                VerticalAlignment="Center"
-                                Text="{Binding Address}" />
-                        </StackPanel>
-                    </StackPanel>
+                    <WrapPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="30,0">
+                        <ComboBox x:Name="comboBox_Patient"
+                            materialDesign:HintAssist.Hint="Пациент"
+                            Style="{StaticResource  MaterialDesignFloatingHintComboBox}"
+                            VerticalAlignment="Center" Margin="0,3,0,0"
+                            Width="245"
+                            DisplayMemberPath="FullName"
+                            SelectedValuePath="Id">
+                            <ComboBox.SelectedValue>
+                                <Binding Path="PatientId" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <domain:NotSelectComboValidationRule
+                                                ValidatesOnTargetUpdated="True" xmlns:domain="clr-namespace:ClinicApp.Domain" />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </ComboBox.SelectedValue>
+                        </ComboBox>
+                        <DatePicker x:Name="datePicker_DateVisit"
+                            materialDesign:HintAssist.Hint="Дата приема"
+                            Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="0,5,0,0"
+                            VerticalAlignment="Center" 
+                            Width="115">
+                            <DatePicker.SelectedDate>
+                                <Binding Path="DateVisit" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <domain1:IncorrectDateValidationRule
+                                                ValidatesOnTargetUpdated="True" xmlns:domain1="clr-namespace:MaterialDesignDemo.Domain" />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </DatePicker.SelectedDate>
+                        </DatePicker>
+                        <ComboBox x:Name="comboBox_InitialVisit"
+                            materialDesign:HintAssist.Hint="Тип приема"
+                            Style="{StaticResource  MaterialDesignFloatingHintComboBox}"
+                            VerticalAlignment="Center" 
+                            Width="110" Margin="20,3,0,0" 
+                            SelectedValue="{Binding InitialVisit}">
+                            <ComboBox.Text>
+                                <Binding Path="InitialVisit" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <domain:NotSelectComboValidationRule
+                                                ValidatesOnTargetUpdated="True" xmlns:domain="clr-namespace:ClinicApp.Domain" />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </ComboBox.Text>
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Converter={x:Static local:InitialVisitToBooleanConverter.Instance}}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                            <ComboBox.Items>
+                                <system:Boolean>True</system:Boolean>
+                                <system:Boolean>False</system:Boolean>
+                            </ComboBox.Items>
+                        </ComboBox>
+                        <TextBox
+                            materialDesign:HintAssist.Hint="Диагноз"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                            materialDesign:TextFieldAssist.HasClearButton="True"
+                            VerticalAlignment="Center" Width="245"
+                            Text="{Binding Diagnosis}" />
+                    </WrapPanel>
                     <StackPanel
                             Grid.Row="2" Grid.Column="0"
                             Grid.ColumnSpan="2"

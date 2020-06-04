@@ -8,7 +8,7 @@ namespace MaterialDesignDemo.Domain
 		public override ValidationResult Validate(object value, CultureInfo cultureInfo)
 		{
 			return string.IsNullOrWhiteSpace((value ?? "").ToString())
-				? new ValidationResult(false, "Поле не может быть пустым.")
+				? new ValidationResult(false, "Поле не может быть пустым")
 				: ValidationResult.ValidResult;
 		}
 	}

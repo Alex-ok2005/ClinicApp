@@ -30,9 +30,11 @@ namespace ClinicApp
             db = new ApplicationContext();
             db.Patients.Load();
             db.Visits.Load();
-            ClinicVM = new ClinicViewModel();
+            ClinicVM = new ClinicViewModel(db);
             DataContext = db;
             InitializeComponent();
+            textBlock_CountRecords.DataContext = ClinicVM;
+            dummyElement.DataContext = ClinicVM;
         }
 
         #region Обработчики комманд
@@ -69,7 +71,13 @@ namespace ClinicApp
                         _patient.Address = ClinicVM.SelectedPatient.Address;
                         ClinicVM.SelectedPatient = null;
                     }
-                    else db.Entry(ClinicVM.SelectedPatient).State = EntityState.Added;
+                    else
+                    {
+                        db.Entry(ClinicVM.SelectedPatient).State = EntityState.Added;
+                        ClinicVM.PatientCount = db.Patients.Count();
+                        DGPatientList.SelectedIndex = DGPatientList.Items.Count - 1;
+                        DGPatientList.ScrollIntoView(DGPatientList.Items[DGPatientList.Items.Count - 1]);
+                    }
                     db.SaveChanges();
                 }
             }
@@ -82,14 +90,28 @@ namespace ClinicApp
         }
         private void CloseWinPatientCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = (!Validation.GetHasError(textBox_Name) && !Validation.GetHasError(textBox_Surname) && !Validation.GetHasError(datePicker_BirthDate)) || (e.Parameter as Button).IsCancel;
+            e.CanExecute = (!Validation.GetHasError(textBox_Name) 
+                && !Validation.GetHasError(textBox_Surname) 
+                && !Validation.GetHasError(datePicker_BirthDate)) 
+                || (e.Parameter as Button).IsCancel;
         }
         #endregion
 
         #region Посещения
         private void OpenWinVisitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-
+            using (ApplicationContext context = new ApplicationContext())
+            {
+                if (e.Parameter != null) ClinicVM.SelectedVisit = context.Visits.Where(p => p.Id == ((Visit)e.Parameter).Id).FirstOrDefault();
+                else
+                {
+                    ClinicVM.SelectedVisit = new Visit();
+                    ClinicVM.SelectedVisit.DateVisit = DateTime.Now;
+                }
+                DialogHost_Visit.DataContext = ClinicVM.SelectedVisit;
+                comboBox_Patient.ItemsSource = db.Patients.Local;
+            }
+            DialogHost_Visit.IsOpen = true;
         }
         private void OpenWinVisitCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
@@ -97,11 +119,42 @@ namespace ClinicApp
         }
         private void CloseWinVisitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-
+            try
+            {
+                if (!(e.Parameter as Button).IsCancel)
+                {
+                    if (db.Visits.Where(p => p.Id == ClinicVM.SelectedVisit.Id).Count() > 0)
+                    {
+                        var _visit = db.Visits.Where(p => p.Id == ClinicVM.SelectedVisit.Id).FirstOrDefault();
+                        _visit.InitialVisit = ClinicVM.SelectedVisit.InitialVisit;
+                        _visit.DateVisit = ClinicVM.SelectedVisit.DateVisit;
+                        _visit.Diagnosis = ClinicVM.SelectedVisit.Diagnosis;
+                        _visit.PatientId = ClinicVM.SelectedVisit.PatientId;
+                        ClinicVM.SelectedVisit = null;
+                    }
+                    else
+                    {
+                        db.Entry(ClinicVM.SelectedVisit).State = EntityState.Added;
+                        ClinicVM.VisitCount = db.Visits.Count();
+                        DGVisitList.SelectedIndex = DGVisitList.Items.Count - 1;
+                        DGVisitList.ScrollIntoView(DGVisitList.Items[DGVisitList.Items.Count - 1]);
+                    }
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error($"В методе: {ex.TargetSite} возникло исключение: { ex.Message}");
+                MessageBox.Show($"Ошибка сохранения в базе данных. Обратитесь к администратору.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            DialogHost_Visit.IsOpen = false;
         }
         private void CloseWinVisitCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = true;
+            e.CanExecute = (!Validation.GetHasError(comboBox_Patient) 
+                && !Validation.GetHasError(datePicker_DateVisit) 
+                && !Validation.GetHasError(comboBox_InitialVisit)) 
+                || (e.Parameter as Button).IsCancel;
         }
         #endregion
 
@@ -139,6 +192,8 @@ namespace ClinicApp
                             break;
                     }
                     db.SaveChanges();
+                    ClinicVM.VisitCount = db.Visits.Count();
+                    ClinicVM.PatientCount = db.Patients.Count();
                 }
             }
             catch (Exception ex)

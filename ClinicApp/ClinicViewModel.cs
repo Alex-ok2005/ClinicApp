@@ -34,11 +34,53 @@ namespace ClinicApp
             return Equals(value, TrueText);
         }
     }
+    public class InitialVisitToBooleanConverter : IValueConverter
+    {
+        private const string TrueText = "Первичный";
+        private const string FalseText = "Вторичный";
+        public static readonly InitialVisitToBooleanConverter Instance = new InitialVisitToBooleanConverter();
+
+        private InitialVisitToBooleanConverter()
+        {
+        }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return Equals(true, value)
+                ? TrueText
+                : FalseText;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return Equals(value, TrueText);
+        }
+    }
     public class ClinicViewModel : INotifyPropertyChanged
     {
+        private int activeTabItem;
         private int countRecords;
+        private int patientCount;
+        private int visitCount;
         private Patient selectedPatient;
         private Visit selectedVisit;
+        public int ActiveTabItem
+        {
+            get { return activeTabItem; }
+            set
+            {
+                activeTabItem = value;
+                switch (activeTabItem)
+                {
+                    case 0:
+                        CountRecords = PatientCount;
+                        break;
+                    case 1:
+                        CountRecords = VisitCount;
+                        break;
+                }
+                OnPropertyChanged("ActiveTabItem");
+            }
+        }
         public int CountRecords
         {
             get { return countRecords; }
@@ -46,6 +88,42 @@ namespace ClinicApp
             {
                 countRecords = value;
                 OnPropertyChanged("CountRecords");
+            }
+        }
+        public int PatientCount
+        {
+            get { return patientCount; }
+            set
+            {
+                patientCount = value;
+                switch (ActiveTabItem)
+                {
+                    case 0:
+                        CountRecords = PatientCount;
+                        break;
+                    case 1:
+                        CountRecords = VisitCount;
+                        break;
+                }
+                OnPropertyChanged("PatientCount");
+            }
+        }
+        public int VisitCount
+        {
+            get { return visitCount; }
+            set
+            {
+                visitCount = value;
+                switch (ActiveTabItem)
+                {
+                    case 0:
+                        CountRecords = PatientCount;
+                        break;
+                    case 1:
+                        CountRecords = VisitCount;
+                        break;
+                }
+                OnPropertyChanged("VisitCount");
             }
         }
         public Patient SelectedPatient
@@ -65,6 +143,11 @@ namespace ClinicApp
                 selectedVisit = value;
                 OnPropertyChanged("SelectedVisit");
             }
+        }
+        public ClinicViewModel(ApplicationContext context)
+        {
+            PatientCount = context.Patients.Count();
+            VisitCount = context.Visits.Count();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
