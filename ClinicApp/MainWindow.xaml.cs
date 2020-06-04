@@ -27,11 +27,19 @@ namespace ClinicApp
         public static ClinicViewModel ClinicVM;
         public MainWindow()
         {
-            db = new ApplicationContext();
-            db.Patients.Load();
-            db.Visits.Load();
-            ClinicVM = new ClinicViewModel(db);
-            DataContext = db;
+            try
+            { 
+                db = new ApplicationContext();
+                db.Patients.Load();
+                db.Visits.Load();
+                ClinicVM = new ClinicViewModel(db);
+                DataContext = db;
+            }
+            catch (Exception ex)
+            {
+                logger.Error($"В методе: {ex.TargetSite} возникло исключение: { ex.Message}");
+                MessageBox.Show($"Ошибка доступа к базе данных. Обратитесь к администратору.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             InitializeComponent();
             textBlock_CountRecords.DataContext = ClinicVM;
             dummyElement.DataContext = ClinicVM;
@@ -52,7 +60,7 @@ namespace ClinicApp
         }
         private void OpenWinPatientCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = true;
+            e.CanExecute = (ClinicVM != null);
         }
         private void CloseWinPatientCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
@@ -115,7 +123,7 @@ namespace ClinicApp
         }
         private void OpenWinVisitCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = true;
+            e.CanExecute = (ClinicVM != null);
         }
         private void CloseWinVisitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
@@ -158,6 +166,7 @@ namespace ClinicApp
         }
         #endregion
 
+        #region Удаление записей из таблиц
         private void OpenDeleteDialogCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             DialogHost_DeleteRow.Tag = (e.Source as DataGrid).Name;
@@ -207,6 +216,8 @@ namespace ClinicApp
         {
             e.CanExecute = true;
         }
+        #endregion
+
         private void SelectMenuItemCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             (e.Parameter as RadioButton).IsChecked = true;

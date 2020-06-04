@@ -10,7 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ClinicApp
-{
+{   
+    // Контекст данных
     public class ApplicationContext : DbContext
     {
         public ApplicationContext() : base("DefaultConnection")

@@ -61,8 +61,8 @@ namespace ClinicApp
         private int countRecords;
         private int patientCount;
         private int visitCount;
-        private Patient selectedPatient;
-        private Visit selectedVisit;
+        private Patient selectedPatient; 
+        private Visit selectedVisit; 
         public int ActiveTabItem
         {
             get { return activeTabItem; }
@@ -80,7 +80,7 @@ namespace ClinicApp
                 }
                 OnPropertyChanged("ActiveTabItem");
             }
-        }
+        } // Активная вкладка
         public int CountRecords
         {
             get { return countRecords; }
@@ -89,7 +89,7 @@ namespace ClinicApp
                 countRecords = value;
                 OnPropertyChanged("CountRecords");
             }
-        }
+        } // Количество запией в активой таблице
         public int PatientCount
         {
             get { return patientCount; }
@@ -107,7 +107,7 @@ namespace ClinicApp
                 }
                 OnPropertyChanged("PatientCount");
             }
-        }
+        }  // Количество запией в таблице пациентов
         public int VisitCount
         {
             get { return visitCount; }
@@ -125,7 +125,7 @@ namespace ClinicApp
                 }
                 OnPropertyChanged("VisitCount");
             }
-        }
+        } // Количество запией в таблице посещений
         public Patient SelectedPatient
         {
             get { return selectedPatient; }
@@ -134,7 +134,7 @@ namespace ClinicApp
                 selectedPatient = value;
                 OnPropertyChanged("SelectedPatient");
             }
-        }
+        } // Выбранный для изменения пациент
         public Visit SelectedVisit
         {
             get { return selectedVisit; }
@@ -143,7 +143,7 @@ namespace ClinicApp
                 selectedVisit = value;
                 OnPropertyChanged("SelectedVisit");
             }
-        }
+        } // Выбранный для изменения визит
         public ClinicViewModel(ApplicationContext context)
         {
             PatientCount = context.Patients.Count();
