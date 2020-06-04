@@ -82,11 +82,11 @@ namespace ClinicApp
                     else
                     {
                         db.Entry(ClinicVM.SelectedPatient).State = EntityState.Added;
-                        ClinicVM.PatientCount = db.Patients.Count();
                         DGPatientList.SelectedIndex = DGPatientList.Items.Count - 1;
                         DGPatientList.ScrollIntoView(DGPatientList.Items[DGPatientList.Items.Count - 1]);
                     }
                     db.SaveChanges();
+                    ClinicVM.PatientCount = db.Patients.Count();
                 }
             }
             catch (Exception ex)
@@ -143,11 +143,11 @@ namespace ClinicApp
                     else
                     {
                         db.Entry(ClinicVM.SelectedVisit).State = EntityState.Added;
-                        ClinicVM.VisitCount = db.Visits.Count();
                         DGVisitList.SelectedIndex = DGVisitList.Items.Count - 1;
                         DGVisitList.ScrollIntoView(DGVisitList.Items[DGVisitList.Items.Count - 1]);
                     }
                     db.SaveChanges();
+                    ClinicVM.VisitCount = db.Visits.Count();
                 }
             }
             catch (Exception ex)
