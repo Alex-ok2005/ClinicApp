@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace ClinicApp
 {   
@@ -18,26 +19,27 @@ namespace ClinicApp
         {
         }
         public DbSet<Patient> Patients { get; set; }    // Набор сущностей пациентов
+        public DbSet<Doctor> Doctors { get; set; }    // Набор сущностей о
         public DbSet<Visit> Visits { get; set; }    // Набор сущностей посещений
     }
-
-    // Пациент
-    public class Patient : INotifyPropertyChanged 
+    // Личность
+    public class Person : INotifyPropertyChanged 
     {
-        public string name;
-        public string surname;
-        public string patronymic;
-        public string fullName;
-        public bool? sex;
-        public string sexToString;
-        public DateTime? birthDate;
-        public string address;
-        public string phone;
+        private string name;
+        private string surname;
+        private string patronymic;
+        private string fullName;
+        private bool? gender;
+        private string genderToString;
+        private DateTime? birthDate;
+        private string address;
+        private string phone;
+        private byte[] image;
 
         [Key]
         public int Id { get; set; }
         [MaxLength(50), Required]
-        public string Name // Имя пациента
+        public string Name // Имя 
         {
             get { return name; }
             set
@@ -47,7 +49,7 @@ namespace ClinicApp
             }
         }
         [MaxLength(50)]
-        public string Surname // Фамилия пациента
+        public string Surname // Фамилия 
         {
             get { return surname; }
             set
@@ -56,7 +58,7 @@ namespace ClinicApp
                 OnPropertyChanged("Surname");
             }
         }
-        [MaxLength(50)] // Отчество пациента
+        [MaxLength(50)] // Отчество 
         public string Patronymic
         {
             get { return patronymic; }
@@ -76,26 +78,26 @@ namespace ClinicApp
                 OnPropertyChanged("FullName");
             }
         }
-        public bool? Sex // Пол пациента
+        public bool? Gender // Пол 
         {
-            get { return sex; }
+            get { return gender; }
             set
             {
-                sex = value;
-                OnPropertyChanged("Sex");
+                gender = value;
+                OnPropertyChanged("Gender");
             }
         }
         [NotMapped]
-        public string SexToString
+        public string GenderToString
         {
-            get { return sexToString; }
+            get { return genderToString; }
             set
             {
-                sexToString = value;
-                OnPropertyChanged("SexToString");
+                genderToString = value;
+                OnPropertyChanged("GenderToString");
             }
         }
-        public DateTime? BirthDate // Дата рождения пациента
+        public DateTime? BirthDate // Дата рождения 
         {
             get { return birthDate; }
             set
@@ -104,7 +106,7 @@ namespace ClinicApp
                 OnPropertyChanged("BirthDate");
             }
         }
-        public string Address // Адрес проживания пациента
+        public string Address // Адрес проживания 
         {
             get { return address; }
             set
@@ -114,7 +116,7 @@ namespace ClinicApp
             }
         }
         [MaxLength(50)]
-        public string Phone // Номер телефона пациента
+        public string Phone // Номер телефона 
         {
             get { return phone; }
             set
@@ -123,27 +125,34 @@ namespace ClinicApp
                 OnPropertyChanged("Phone");
             }
         }
-        public virtual ICollection<Visit> Visits { get; set; }
-        public Patient()
+        public byte[] Image // Фото
+        {
+            get { return image; }
+            set
+            {
+                image = value;
+                OnPropertyChanged("Image");
+            }
+        }
+        public Person()
         {
             PropertyChanged += Patient_PropertyChanged;
-            Visits = new List<Visit>();
         }
         public void Patient_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if ((e.PropertyName == "Surname") || (e.PropertyName == "Name") || (e.PropertyName == "Patronymic"))
                 FullName = Surname + " " + Name + " " + Patronymic ?? "";
-            else if (e.PropertyName == "Sex")
-                switch (Sex)
+            else if (e.PropertyName == "Gender")
+                switch (Gender)
                 {
                     case true:
-                        SexToString = "муж.";
+                        GenderToString = "муж.";
                         break;
                     case false:
-                        SexToString = "жен.";
+                        GenderToString = "жен.";
                         break;
                     case null:
-                        SexToString = "";
+                        GenderToString = "";
                         break;
                 };
         }
@@ -153,7 +162,21 @@ namespace ClinicApp
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
     }
-
+    // Пациент
+    public class Patient : Person
+    {
+        public virtual ICollection<Visit> Visits { get; set; }
+        public Patient()
+        {
+            Visits = new List<Visit>();
+        }
+    }
+    // Доктор
+    public class Doctor : Person
+    {
+        [NotMapped]
+        public Image ImageControl { get; set; }
+    }
     // Посещение клиники
     public class Visit : INotifyPropertyChanged 
     {

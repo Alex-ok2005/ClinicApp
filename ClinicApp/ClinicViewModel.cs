@@ -9,17 +9,18 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace ClinicApp
 {
-    public class SexToBooleanConverter : IValueConverter
+    public class GenderToBooleanConverter : IValueConverter
     {
         private const string TrueText = "Мужской";
         private const string FalseText = "Женский";
-        public static readonly SexToBooleanConverter Instance = new SexToBooleanConverter();
+        public static readonly GenderToBooleanConverter Instance = new GenderToBooleanConverter();
 
-        private SexToBooleanConverter()
+        private GenderToBooleanConverter()
         {
         }
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -61,8 +62,10 @@ namespace ClinicApp
         private int countRecords;
         private int patientCount;
         private int visitCount;
+        private int doctorCount;
         private Patient selectedPatient; 
-        private Visit selectedVisit; 
+        private Visit selectedVisit;
+        private Doctor selectedDoctor;
         public int ActiveTabItem
         {
             get { return activeTabItem; }
@@ -76,6 +79,9 @@ namespace ClinicApp
                         break;
                     case 1:
                         CountRecords = VisitCount;
+                        break;
+                    case 2:
+                        CountRecords = DoctorCount;
                         break;
                 }
                 OnPropertyChanged("ActiveTabItem");
@@ -104,6 +110,9 @@ namespace ClinicApp
                     case 1:
                         CountRecords = VisitCount;
                         break;
+                    case 2:
+                        CountRecords = DoctorCount;
+                        break;
                 }
                 OnPropertyChanged("PatientCount");
             }
@@ -122,10 +131,34 @@ namespace ClinicApp
                     case 1:
                         CountRecords = VisitCount;
                         break;
+                    case 2:
+                        CountRecords = DoctorCount;
+                        break;
                 }
                 OnPropertyChanged("VisitCount");
             }
         } // Количество запией в таблице посещений
+        public int DoctorCount
+        {
+            get { return doctorCount; }
+            set
+            {
+                doctorCount = value;
+                switch (ActiveTabItem)
+                {
+                    case 0:
+                        CountRecords = PatientCount;
+                        break;
+                    case 1:
+                        CountRecords = VisitCount;
+                        break;
+                    case 2:
+                        CountRecords = DoctorCount;
+                        break;
+                }
+                OnPropertyChanged("DoctorCount");
+            }
+        } // Количество запией в таблице докторов
         public Patient SelectedPatient
         {
             get { return selectedPatient; }
@@ -144,10 +177,21 @@ namespace ClinicApp
                 OnPropertyChanged("SelectedVisit");
             }
         } // Выбранный для изменения визит
+        public Doctor SelectedDoctor
+        {
+            get { return selectedDoctor; }
+            set
+            {
+                selectedDoctor = value;
+                OnPropertyChanged("SelectedDoctor");
+            }
+        } // Выбранный для изменения визит
+        public string ImageFile { get; set; }
         public ClinicViewModel(ApplicationContext context)
         {
             PatientCount = context.Patients.Count();
             VisitCount = context.Visits.Count();
+            DoctorCount = context.Doctors.Count();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

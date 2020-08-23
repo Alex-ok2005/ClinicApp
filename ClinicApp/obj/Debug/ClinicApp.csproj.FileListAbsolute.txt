@@ -26,9 +26,13 @@ K:\Projects\ClinicApp\ClinicApp\bin\Debug\MaterialDesignColors.pdb
 K:\Projects\ClinicApp\ClinicApp\bin\Debug\MaterialDesignThemes.Wpf.pdb
 K:\Projects\ClinicApp\ClinicApp\bin\Debug\MaterialDesignThemes.Wpf.xml
 K:\Projects\ClinicApp\ClinicApp\bin\Debug\NLog.xml
-K:\Projects\ClinicApp\ClinicApp\bin\Debug\ru\EntityFramework.resources.dll
-K:\Projects\ClinicApp\ClinicApp\bin\Debug\ru\EntityFramework.SqlServer.resources.dll
 K:\Projects\ClinicApp\ClinicApp\obj\Debug\ClinicApp_Content.g.cs
 K:\Projects\ClinicApp\ClinicApp\obj\Debug\App.baml
 K:\Projects\ClinicApp\ClinicApp\obj\Debug\GeneratedInternalTypeHelper.g.cs
+K:\Projects\ClinicApp\ClinicApp\obj\Debug\ClinicApp.Migrations.RenameSexFieldMigration.resources
+K:\Projects\ClinicApp\ClinicApp\obj\Debug\ClinicApp.Migrations.AddDoctorTableMigration.resources
+K:\Projects\ClinicApp\ClinicApp\obj\Debug\ClinicApp.Migrations.AddDoctorTableMigration1.resources
 K:\Projects\ClinicApp\ClinicApp\obj\Debug\ClinicApp.csprojAssemblyReference.cache
+K:\Projects\ClinicApp\ClinicApp\obj\Debug\ClinicApp.Migrations.AddDoctorTableMigration2.resources
+K:\Projects\ClinicApp\ClinicApp\bin\Debug\System.Drawing.Common.dll
+K:\Projects\ClinicApp\ClinicApp\bin\Debug\System.Windows.Interactivity.dll

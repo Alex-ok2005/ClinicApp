@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows.Controls;
 
-namespace MaterialDesignDemo.Domain
+namespace ClinicApp.Domain
 {
 	public class NotEmptyValidationRule : ValidationRule
 	{

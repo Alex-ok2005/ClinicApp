@@ -19,6 +19,9 @@ namespace ClinicApp
             OpenDeleteDialogCommand = new RoutedCommand("OpenDeleteDialogDoctorCommand", typeof(MainWindow));
             CloseDeleteDialogCommand = new RoutedCommand("CloseDeleteDialogDoctorCommand", typeof(MainWindow));
             SelectMenuItemCommand = new RoutedCommand("SelectMenuItemCommand", typeof(MainWindow));
+            AddImageCommand = new RoutedCommand("AddImageCommand", typeof(MainWindow));
+            SetImageControlCommand = new RoutedCommand("SetImageControlCommand", typeof(MainWindow));
+            FlippedChangedCommand = new RoutedCommand("FlippedChangedCommand", typeof(MainWindow));
             MenuCommand = new RoutedCommand("MenuCommand", typeof(MainWindow));
         }
 
@@ -29,6 +32,9 @@ namespace ClinicApp
         public static RoutedCommand OpenDeleteDialogCommand { get; private set; }
         public static RoutedCommand CloseDeleteDialogCommand { get; private set; }
         public static RoutedCommand SelectMenuItemCommand { get; private set; }
+        public static RoutedCommand AddImageCommand { get; private set; }
+        public static RoutedCommand SetImageControlCommand { get; private set; }
+        public static RoutedCommand FlippedChangedCommand { get; private set; }
         public static RoutedCommand MenuCommand { get; private set; }
     }
 }

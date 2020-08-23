@@ -76,11 +76,18 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.4.7.0\lib\net461\System.Drawing.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Expression.Blend.Sdk.1.0.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -100,10 +107,27 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ClinicViewModel.cs" />
+    <Compile Include="Domain\ImgConverter.cs" />
     <Compile Include="Domain\FutureDateValidationRule.cs" />
     <Compile Include="Domain\IncorrectDateValidationRule.cs" />
     <Compile Include="Domain\NotEmptyValidationRule.cs" />
     <Compile Include="Domain\NotSelectComboValidationRule.cs" />
+    <Compile Include="Migrations\202008211358411_RenameSexFieldMigration.cs" />
+    <Compile Include="Migrations\202008211358411_RenameSexFieldMigration.Designer.cs">
+      <DependentUpon>202008211358411_RenameSexFieldMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008211544264_AddDoctorTableMigration.cs" />
+    <Compile Include="Migrations\202008211544264_AddDoctorTableMigration.Designer.cs">
+      <DependentUpon>202008211544264_AddDoctorTableMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008211550174_AddDoctorTableMigration1.cs" />
+    <Compile Include="Migrations\202008211550174_AddDoctorTableMigration1.Designer.cs">
+      <DependentUpon>202008211550174_AddDoctorTableMigration1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008211730093_AddDoctorTableMigration2.cs" />
+    <Compile Include="Migrations\202008211730093_AddDoctorTableMigration2.Designer.cs">
+      <DependentUpon>202008211730093_AddDoctorTableMigration2.cs</DependentUpon>
+    </Compile>
     <Compile Include="RelayCommand.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -141,10 +165,23 @@
     <EmbeddedResource Include="Migrations\202005301459188_InitClinicData.resx">
       <DependentUpon>202005301459188_InitClinicData.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008211358411_RenameSexFieldMigration.resx">
+      <DependentUpon>202008211358411_RenameSexFieldMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008211544264_AddDoctorTableMigration.resx">
+      <DependentUpon>202008211544264_AddDoctorTableMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008211550174_AddDoctorTableMigration1.resx">
+      <DependentUpon>202008211550174_AddDoctorTableMigration1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008211730093_AddDoctorTableMigration2.resx">
+      <DependentUpon>202008211730093_AddDoctorTableMigration2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Images\2424800.jpg" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -1,0 +1,3 @@
+2020-08-21 17:00:23.8371 ERROR В методе: Void InitializeDatabase(TContext) возникло исключение: Базовая модель контекста "ApplicationContext" изменилась с момента создания базы данных. Рассмотрите возможность обновления базы данных с помощью Code First Migrations (http://go.microsoft.com/fwlink/?LinkId=238269).
+2020-08-21 20:28:57.8116 ERROR В методе: Void InitializeDatabase(TContext) возникло исключение: Базовая модель контекста "ApplicationContext" изменилась с момента создания базы данных. Рассмотрите возможность обновления базы данных с помощью Code First Migrations (http://go.microsoft.com/fwlink/?LinkId=238269).
+2020-08-21 22:30:48.5918 ERROR В методе: Void .ctor() возникло исключение: Ссылка на объект не указывает на экземпляр объекта.

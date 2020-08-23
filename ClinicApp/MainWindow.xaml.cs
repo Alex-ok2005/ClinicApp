@@ -14,6 +14,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ClinicApp.Migrations;
+using Microsoft.Win32;
+using System.IO;
+using MaterialDesignThemes.Wpf;
+using ClinicApp.Domain;
 
 namespace ClinicApp
 {
@@ -28,10 +33,13 @@ namespace ClinicApp
         public MainWindow()
         {
             try
-            { 
+            {
+                //Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationContext, Configuration>());
+
                 db = new ApplicationContext();
                 db.Patients.Load();
                 db.Visits.Load();
+                db.Doctors.Load();
                 ClinicVM = new ClinicViewModel(db);
                 DataContext = db;
             }
@@ -74,9 +82,10 @@ namespace ClinicApp
                         _patient.Name = ClinicVM.SelectedPatient.Name;
                         _patient.Surname = ClinicVM.SelectedPatient.Surname;
                         _patient.Patronymic = ClinicVM.SelectedPatient.Patronymic;
-                        _patient.Sex = ClinicVM.SelectedPatient.Sex;
+                        _patient.Gender = ClinicVM.SelectedPatient.Gender;
                         _patient.BirthDate = ClinicVM.SelectedPatient.BirthDate;
                         _patient.Address = ClinicVM.SelectedPatient.Address;
+                        _patient.Phone = ClinicVM.SelectedPatient.Phone;
                         ClinicVM.SelectedPatient = null;
                     }
                     else
@@ -163,6 +172,92 @@ namespace ClinicApp
                 && !Validation.GetHasError(datePicker_DateVisit) 
                 && !Validation.GetHasError(comboBox_InitialVisit)) 
                 || (e.Parameter as Button).IsCancel;
+        }
+        #endregion
+
+        #region Специалисты
+        private void AddImageCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            //dlg.InitialDirectory = "";
+            dlg.Filter = "Файлы изображений (*.BMP, *.JPG, *.GIF, *.TIF, *.PNG, *.ICO, *.EMF, *.WMF)|*.bmp;*.jpg;*.gif; *.tif; *.png; *.ico; *.emf; *.wmf";
+            if (dlg.ShowDialog() == true)
+            {
+                BitmapDecoder uriBitmap = BitmapDecoder.Create(
+                    new Uri(dlg.FileName, UriKind.Relative),
+                    BitmapCreateOptions.None,
+                    BitmapCacheOption.Default);
+                ClinicVM.ImageFile = dlg.FileName;
+                (e.Parameter as Image).Source = uriBitmap.Frames[0];
+            }
+        }
+        private void SetImageControlCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            (e.Parameter as Image).Tag = e.Parameter;
+        }
+        private void FlippedChangedCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if ((e.Parameter as Flipper).IsFlipped)
+            {
+                using (ApplicationContext context = new ApplicationContext())
+                {
+                    ClinicVM.SelectedDoctor = new Doctor();
+                    var Id = (int)(e.Parameter as Flipper).Tag;
+                    if (e.Parameter != null) ClinicVM.SelectedDoctor = context.Doctors.Where(p => p.Id == Id).FirstOrDefault();
+                    //(e.Parameter as Flipper).DataContext = ClinicVM.SelectedDoctor;
+                }
+            }
+            else
+            {
+                try
+                {
+                    if (!(e.OriginalSource as Button).IsCancel)
+                    {
+                        if (db.Doctors.Where(p => p.Id == ClinicVM.SelectedDoctor.Id).Count() > 0)
+                        {
+                            if (ClinicVM.ImageFile.Count() > 0)
+                            {
+                                var _doctor = db.Doctors.Where(p => p.Id == ClinicVM.SelectedDoctor.Id).FirstOrDefault();
+                                //_doctor.Name = ClinicVM.SelectedDoctor.Name;
+                                //_doctor.Surname = ClinicVM.SelectedDoctor.Surname;
+                                //_doctor.Patronymic = ClinicVM.SelectedDoctor.Patronymic;
+                                //_doctor.Phone = ClinicVM.SelectedDoctor.Phone;
+                                _doctor.Image = ImgConverter.BitmapToByteArray(_doctor.ImageControl.Source, ClinicVM.ImageFile);
+                            }
+                        }
+                        else
+                        {
+                            db.Entry(ClinicVM.SelectedDoctor).State = EntityState.Added;
+                        }
+                        db.SaveChanges();
+                        ClinicVM.DoctorCount = db.Doctors.Count();
+                    }
+                    else
+                    {
+                        var _doctor = db.Doctors.Where(p => p.Id == ClinicVM.SelectedDoctor.Id).FirstOrDefault();
+                        _doctor.Name = ClinicVM.SelectedDoctor.Name;
+                        _doctor.Surname = ClinicVM.SelectedDoctor.Surname;
+                        _doctor.Patronymic = ClinicVM.SelectedDoctor.Patronymic;
+                        _doctor.Phone = ClinicVM.SelectedDoctor.Phone;
+                        _doctor.Image = ClinicVM.SelectedDoctor.Image;
+                    }
+                    ClinicVM.SelectedDoctor = null;
+                    ClinicVM.ImageFile = "";
+                }
+                catch (Exception ex)
+                {
+                    logger.Error($"В методе: {ex.TargetSite} возникло исключение: { ex.Message}");
+                    MessageBox.Show($"Ошибка сохранения в базе данных. Обратитесь к администратору.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+        private void FlippedChangedCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            //e.CanExecute = (!Validation.GetHasError(textBox_Name)
+            //    && !Validation.GetHasError(textBox_Surname)
+            //    && !Validation.GetHasError(datePicker_BirthDate))
+            //    || (e.Parameter as Button).IsCancel;
+            e.CanExecute = true;
         }
         #endregion
 
