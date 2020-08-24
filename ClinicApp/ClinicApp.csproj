@@ -107,6 +107,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ClinicViewModel.cs" />
+    <Compile Include="Domain\EmptyDataToVisibilityConverter.cs" />
     <Compile Include="Domain\ImgConverter.cs" />
     <Compile Include="Domain\FutureDateValidationRule.cs" />
     <Compile Include="Domain\IncorrectDateValidationRule.cs" />

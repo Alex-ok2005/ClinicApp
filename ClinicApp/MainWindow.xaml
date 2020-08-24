@@ -21,6 +21,7 @@
     <Window.Resources>
         <CollectionViewSource x:Key="Patient_Key" Source="{Binding Patients.Local}" />
         <CollectionViewSource x:Key="Doctors_Key" Source="{Binding Doctors.Local}" />
+        <domain:EmptyDataToVisibilityConverter x:Key="EmptyDataToVisibilityConverter"/>
     </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="local:RelayCommand.OpenWinPatientCommand" Executed="OpenWinPatientCommand_Executed" CanExecute="OpenWinPatientCommand_CanExecute"/>
@@ -70,9 +71,9 @@
             </Grid>
         </materialDesign:ColorZone>
         <materialDesign:DrawerHost x:Name="MenuDriverHost"
-            Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+            Grid.Row="1" Grid.Column="0"
             IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}"
-            Margin="0"
+            Margin="3,24,-3,-24"
             BorderBrush="{DynamicResource MaterialDesignDivider}">
             <materialDesign:DrawerHost.LeftDrawerContent>
                 <StackPanel x:Name="brd" VerticalAlignment="Top" HorizontalAlignment="Left" Width="220"  >
@@ -108,34 +109,34 @@
                 </StackPanel>
             </materialDesign:DrawerHost.LeftDrawerContent>
             <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="45"></RowDefinition>
-                <RowDefinition Height="1*"></RowDefinition>
-                <RowDefinition Height="30"></RowDefinition>
-            </Grid.RowDefinitions>
-            <TabControl x:Name="tabControl" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" 
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="45"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
+                </Grid.RowDefinitions>
+                <TabControl x:Name="tabControl" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" 
                     Background="{x:Null}" 
                     Margin="30,0,30,10" 
                     SelectedIndex="{Binding DataContext.ActiveTabItem, Source={x:Reference dummyElement}}"
                     BorderThickness="0,1,0,0" Padding="0">
-                <TabControl.BorderBrush>
-                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowFrameColorKey}}"/>
-                </TabControl.BorderBrush>
-                <TabItem Header="" Height="0" Width="0"
+                    <TabControl.BorderBrush>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.WindowFrameColorKey}}"/>
+                    </TabControl.BorderBrush>
+                    <TabItem Header="" Height="0" Width="0"
                      IsSelected="{Binding ElementName=RB_1, Path=IsChecked}" Margin="-2" BorderThickness="2">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <DataGrid 
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <DataGrid 
                         Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" 
                         AutoGenerateColumns="False"
                         x:Name="DGPatientList"
@@ -148,60 +149,60 @@
                         Style="{StaticResource MaterialDesignDataGrid}"
                         VerticalContentAlignment="Stretch"
                         Margin="0,0,0,10" IsReadOnly="True" >
-                        <DataGrid.Resources>
-                            <CollectionViewSource x:Key="Patients_Key" Source="{Binding Patients.Local}" />
-                        </DataGrid.Resources>
-                        <DataGrid.ItemsSource>
-                            <Binding Source="{StaticResource Patients_Key}" />
-                        </DataGrid.ItemsSource>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding FullName}" Header="Ф.И.О." Width="220" />
-                            <DataGridTextColumn Binding="{Binding GenderToString}" Header="Пол" Width="70" />
-                            <DataGridTextColumn Binding="{Binding BirthDate, StringFormat=\{0:dd.MM.yyyy \}}" Header="Дата рождения" Width="120" />
-                            <DataGridTextColumn Binding="{Binding Address}" Header="Адрес проживания" Width="300"/>
-                            <DataGridTextColumn Binding="{Binding Phone}" Header="Телефон" Width="100" IsReadOnly="True" />
-                            <DataGridTemplateColumn Width="75" CanUserResize="False">
-                                <DataGridTemplateColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <Button
+                                <DataGrid.Resources>
+                                    <CollectionViewSource x:Key="Patients_Key" Source="{Binding Patients.Local}" />
+                                </DataGrid.Resources>
+                                <DataGrid.ItemsSource>
+                                    <Binding Source="{StaticResource Patients_Key}" />
+                                </DataGrid.ItemsSource>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding FullName}" Header="Ф.И.О." Width="220" />
+                                    <DataGridTextColumn Binding="{Binding GenderToString}" Header="Пол" Width="70" />
+                                    <DataGridTextColumn Binding="{Binding BirthDate, StringFormat=\{0:dd.MM.yyyy \}}" Header="Дата рождения" Width="120" />
+                                    <DataGridTextColumn Binding="{Binding Address}" Header="Адрес проживания" Width="300"/>
+                                    <DataGridTextColumn Binding="{Binding Phone}" Header="Телефон" Width="100" IsReadOnly="True" />
+                                    <DataGridTemplateColumn Width="75" CanUserResize="False">
+                                        <DataGridTemplateColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <Button
                                             Grid.Column="0"
                                             Grid.Row="0"
                                             Grid.ColumnSpan="2"
                                             Style="{StaticResource MaterialDesignIconButton}" Width="26" Height="26" Margin="2,0"
                                             ToolTip="Добавить запись" 
                                             Command="local:RelayCommand.OpenWinPatientCommand" HorizontalAlignment="Left" VerticalAlignment="Top">
-                                            <materialDesign:PackIcon Kind="Plus" />
-                                        </Button>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.HeaderTemplate>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Button
+                                                    <materialDesign:PackIcon Kind="Plus" />
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.HeaderTemplate>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button
                                                 Style="{StaticResource MaterialDesignIconButton}" Width="24" Height="24" Margin="2,0"
                                                 ToolTip="Изменить запись"
                                                 CommandParameter="{Binding ElementName=DGPatientList, Path=SelectedItem}"
                                                 Command="local:RelayCommand.OpenWinPatientCommand">
-                                                <materialDesign:PackIcon Kind="Pencil" Width="20" Height="20" />
-                                            </Button>
-                                            <Button
+                                                        <materialDesign:PackIcon Kind="Pencil" Width="20" Height="20" />
+                                                    </Button>
+                                                    <Button
                                                 Style="{StaticResource MaterialDesignIconButton}" Width="24" Height="24" Margin="4,0"
                                                 ToolTip="Удалить запись" 
                                                 CommandParameter="{Binding ElementName=DGPatientList, Path=SelectedItem}"
                                                 Command="local:RelayCommand.OpenDeleteDialogCommand" >
-                                                <materialDesign:PackIcon Kind="DeleteOutline" Width="20" Height="20"/>
-                                            </Button>
-                                        </StackPanel>
-                                    </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </Grid>
-            </TabItem>
-                <TabItem Header="" Height="0" Width="0"
+                                                        <materialDesign:PackIcon Kind="DeleteOutline" Width="20" Height="20"/>
+                                                    </Button>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="" Height="0" Width="0"
                  IsSelected="{Binding ElementName=RB_2, Path=IsChecked}">
-                    <DataGrid 
+                        <DataGrid 
                         Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" 
                         AutoGenerateColumns="False"
                         x:Name="DGVisitList"
@@ -214,76 +215,76 @@
                         Style="{StaticResource MaterialDesignDataGrid}"
                         VerticalContentAlignment="Stretch"
                         Margin="0,0,0,10" IsReadOnly="True" >
-                        <DataGrid.Resources>
-                            <CollectionViewSource x:Key="Visits_Key" Source="{Binding Visits.Local}" />
-                            <CollectionViewSource x:Key="Patient_Key" Source="{Binding Patients.Local}" />
-                        </DataGrid.Resources>
-                        <DataGrid.ItemsSource>
-                            <Binding Source="{StaticResource Visits_Key}" />
-                        </DataGrid.ItemsSource>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding DateVisit, StringFormat=\{0:dd.MM.yyyy \}}" Header="Дата посещения" Width="120" />
-                            <DataGridComboBoxColumn 
+                            <DataGrid.Resources>
+                                <CollectionViewSource x:Key="Visits_Key" Source="{Binding Visits.Local}" />
+                                <CollectionViewSource x:Key="Patient_Key" Source="{Binding Patients.Local}" />
+                            </DataGrid.Resources>
+                            <DataGrid.ItemsSource>
+                                <Binding Source="{StaticResource Visits_Key}" />
+                            </DataGrid.ItemsSource>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding DateVisit, StringFormat=\{0:dd.MM.yyyy \}}" Header="Дата посещения" Width="120" />
+                                <DataGridComboBoxColumn 
                                 DisplayMemberPath="FullName"
                                 SelectedValuePath="Id"
                                 SelectedValueBinding="{Binding PatientId}"
                                 Header="Пациент" Width="220" >
-                                <DataGridComboBoxColumn.ItemsSource>
-                                    <Binding Source="{StaticResource Patient_Key}" />
-                                </DataGridComboBoxColumn.ItemsSource>
-                            </DataGridComboBoxColumn>
-                            <DataGridTextColumn Binding="{Binding InitialVisitToString}" Header="Тип приема" Width="110" />
-                            <DataGridTextColumn Binding="{Binding Diagnosis}" Header="Диагноз" Width="360"/>
-                            <DataGridTemplateColumn Width="75" CanUserResize="False">
-                                <DataGridTemplateColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <Button
+                                    <DataGridComboBoxColumn.ItemsSource>
+                                        <Binding Source="{StaticResource Patient_Key}" />
+                                    </DataGridComboBoxColumn.ItemsSource>
+                                </DataGridComboBoxColumn>
+                                <DataGridTextColumn Binding="{Binding InitialVisitToString}" Header="Тип приема" Width="110" />
+                                <DataGridTextColumn Binding="{Binding Diagnosis}" Header="Диагноз" Width="360"/>
+                                <DataGridTemplateColumn Width="75" CanUserResize="False">
+                                    <DataGridTemplateColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <Button
                                                 Grid.Column="0"
                                                 Grid.Row="0"
                                                 Grid.ColumnSpan="2"
                                                 Style="{StaticResource MaterialDesignIconButton}" Width="26" Height="26" Margin="2,0"
                                                 ToolTip="Добавить запись" 
                                                 Command="local:RelayCommand.OpenWinVisitCommand" HorizontalAlignment="Left" VerticalAlignment="Top">
-                                            <materialDesign:PackIcon Kind="Plus" />
-                                        </Button>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.HeaderTemplate>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Button
+                                                <materialDesign:PackIcon Kind="Plus" />
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.HeaderTemplate>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button
                                                     Style="{StaticResource MaterialDesignIconButton}" Width="24" Height="24" Margin="2,0"
                                                     ToolTip="Изменить запись"
                                                     CommandParameter="{Binding ElementName=DGVisitList, Path=SelectedItem}"
                                                     Command="local:RelayCommand.OpenWinVisitCommand">
-                                                <materialDesign:PackIcon Kind="Pencil" Width="20" Height="20" />
-                                            </Button>
-                                            <Button
+                                                    <materialDesign:PackIcon Kind="Pencil" Width="20" Height="20" />
+                                                </Button>
+                                                <Button
                                                     Style="{StaticResource MaterialDesignIconButton}" Width="24" Height="24" Margin="4,0"
                                                     ToolTip="Удалить запись" 
                                                     CommandParameter="{Binding ElementName=DGVisitList, Path=SelectedItem}"
                                                     Command="local:RelayCommand.OpenDeleteDialogCommand" >
-                                                <materialDesign:PackIcon Kind="DeleteOutline" Width="20" Height="20"/>
-                                            </Button>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </TabItem>
-                <TabItem Header="" Height="0" Width="0"
+                                                    <materialDesign:PackIcon Kind="DeleteOutline" Width="20" Height="20"/>
+                                                </Button>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </TabItem>
+                    <TabItem Header="" Height="0" Width="0"
                  IsSelected="{Binding ElementName=RB_3, Path=IsChecked}">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
-                        <ItemsControl x:Name="Doctors_ItemControl" ItemsSource="{Binding Doctors.Local}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel Margin="0,20" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <materialDesign:Flipper x:Name="DoctorFlipper"
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <ItemsControl x:Name="Doctors_ItemControl" ItemsSource="{Binding Doctors.Local}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Margin="0,20" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <materialDesign:Flipper x:Name="DoctorFlipper"
                                         Tag="{Binding Id}"                    
                                         Style="{StaticResource MaterialDesignCardFlipper}"
                                         HorizontalAlignment="Left">
@@ -295,105 +296,109 @@
                                                 </i:EventTrigger>
                                             </i:Interaction.Triggers>
                                             <materialDesign:Flipper.FrontContent>
-                                            <Grid Height="280" Width="200">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="184" />
-                                                    <RowDefinition Height="*" />
-                                                </Grid.RowDefinitions>
-                                                <Button
+                                                <Grid Height="280" Width="200">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="184" />
+                                                        <RowDefinition Height="*" />
+                                                    </Grid.RowDefinitions>
+                                                    <Button
                                                     Style="{StaticResource MaterialDesignIconButton}"
                                                     Foreground="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                                                    Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                                                    Command="{x:Static materialDesign:Flipper.FlipCommand}"
                                                     Width="120" Height="120" 
-                                                    ToolTip="Новый">
-                                                    <materialDesign:PackIcon Kind="Plus" Width="100" Height="100" />
-                                                </Button>
-                                                <materialDesign:ColorZone
+                                                    ToolTip="Добавить">
+                                                        <materialDesign:PackIcon Kind="Plus" Width="70" Height="70" />
+                                                    </Button>
+                                                    <materialDesign:ColorZone
                                                     Mode="PrimaryLight"
-                                                    VerticalAlignment="Stretch">
-                                                    <Image x:Name="FotoImage" 
+                                                    VerticalAlignment="Stretch"
+                                                    Visibility="{Binding Name, Converter={StaticResource EmptyDataToVisibilityConverter}}">
+                                                        <Image x:Name="FotoImage" 
                                                     Tag="{Binding ImageControl, Mode=OneWayToSource}"
                                                     Source="{Binding Image}"
                                                     Width="128">
-                                                        <i:Interaction.Triggers>
-                                                            <i:EventTrigger EventName="Loaded">
-                                                                <i:InvokeCommandAction
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="Loaded">
+                                                                    <i:InvokeCommandAction
                                                                     CommandParameter="{Binding ElementName=FotoImage}"
                                                                     Command="local:RelayCommand.SetImageControlCommand" />
-                                                            </i:EventTrigger>
-                                                        </i:Interaction.Triggers>
-                                                    </Image>
-                                                </materialDesign:ColorZone>
-                                                <StackPanel
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </Image>
+                                                    </materialDesign:ColorZone>
+                                                    <StackPanel
                                                     Grid.Row="1"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center">
-                                                    <TextBlock Margin="15,0" TextWrapping="Wrap" TextAlignment="Center">
-                                                        <TextBlock.Text>
-                                                            <Binding Path="FullName"/>
-                                                        </TextBlock.Text>
-                                                    </TextBlock>
-                                                    <Button
+                                                        <TextBlock Margin="15,0" TextWrapping="Wrap" TextAlignment="Center">
+                                                            <TextBlock.Text>
+                                                                <Binding Path="FullName"/>
+                                                            </TextBlock.Text>
+                                                        </TextBlock>
+                                                        <Button
+                                                        Visibility="{Binding Name, Converter={StaticResource EmptyDataToVisibilityConverter}}"
                                                         Style="{StaticResource MaterialDesignFlatButton}"
                                                         Command="{x:Static materialDesign:Flipper.FlipCommand}"
                                                         Margin="0 4 0 0">
-                                                        ИЗМЕНИТЬ
-                                                    </Button>
-                                                </StackPanel>
-                                            </Grid>
-                                        </materialDesign:Flipper.FrontContent>
-                                        <materialDesign:Flipper.BackContent>
-                                            <Grid Height="280" Width="200">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="*" />
-                                                </Grid.RowDefinitions>
-                                                <materialDesign:ColorZone
+                                                            ИЗМЕНИТЬ
+                                                        </Button>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </materialDesign:Flipper.FrontContent>
+                                            <materialDesign:Flipper.BackContent>
+                                                <Grid Height="280" Width="200">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="*" />
+                                                    </Grid.RowDefinitions>
+                                                    <materialDesign:ColorZone
                                                     Mode="Accent"
                                                     Padding="6">
-                                                    <Grid>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="Auto"/>
-                                                            <ColumnDefinition Width="*"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <Button
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <Button
                                                             Style="{StaticResource MaterialDesignToolForegroundButton}"
                                                             Command="{x:Static materialDesign:Flipper.FlipCommand}"
                                                             HorizontalAlignment="Left">
-                                                            <materialDesign:PackIcon
+                                                                    <materialDesign:PackIcon
                                                             Kind="ArrowLeft"
                                                             HorizontalAlignment="Right" />
-                                                            </Button>
-                                                            <TextBlock
+                                                                </Button>
+                                                                <TextBlock
                                                                 Margin="8 0 0 0"
                                                                 VerticalAlignment="Center">
                                                                 СОХРАНИТЬ
-                                                            </TextBlock>
-                                                        </StackPanel>
-                                                        <Button
+                                                                </TextBlock>
+                                                            </StackPanel>
+                                                            <Button
                                                             Grid.Column="1"
                                                             Style="{StaticResource MaterialDesignToolForegroundButton}"
                                                             Command="{x:Static materialDesign:Flipper.FlipCommand}"
                                                             HorizontalAlignment="Right" IsCancel="True">
-                                                            <materialDesign:PackIcon
+                                                                <materialDesign:PackIcon
                                                             Kind="WindowClose"
                                                             HorizontalAlignment="Right" />
-                                                        </Button>
+                                                            </Button>
                                                         </Grid>
-                                                </materialDesign:ColorZone>
-                                                <Grid
+                                                    </materialDesign:ColorZone>
+                                                    <Grid
                                                     Grid.Row="1"
                                                     Margin="0 6 0 0"
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Top"
                                                     Width="162">
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition />
-                                                        <RowDefinition />
-                                                        <RowDefinition />
-                                                        <RowDefinition />
-                                                        <RowDefinition />
-                                                    </Grid.RowDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition />
+                                                            <RowDefinition />
+                                                            <RowDefinition />
+                                                            <RowDefinition />
+                                                            <RowDefinition />
+                                                        </Grid.RowDefinitions>
                                                         <TextBox x:Name="textBox_DoctorSurname"
                                                             Grid.Row="0" Margin="0"    
                                                             materialDesign:HintAssist.Hint="Фамилия"
@@ -446,35 +451,35 @@
                                                             ДОБАВИТЬ ФОТО
                                                         </Button>
                                                     </Grid>
-                                            </Grid>
-                                        </materialDesign:Flipper.BackContent>
-                                    </materialDesign:Flipper>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </ScrollViewer>
-                </TabItem>
-            </TabControl>
-            <StackPanel  Orientation="Horizontal" Grid.ColumnSpan="2"
+                                                </Grid>
+                                            </materialDesign:Flipper.BackContent>
+                                        </materialDesign:Flipper>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </TabItem>
+                </TabControl>
+                <StackPanel  Orientation="Horizontal" Grid.ColumnSpan="2"
                 Margin="30,0,0,-26" Grid.Row="0" Grid.Column="0"
                 HorizontalAlignment="Left" VerticalAlignment="Center" >
-                <RadioButton x:Name="RB_1"
+                    <RadioButton x:Name="RB_1"
                 Style="{StaticResource MaterialDesignTabRadioButton}"
                 Margin="0"
                 IsChecked="True"
                 Content="ПАЦИЕНТЫ"/>
-                <RadioButton x:Name="RB_2"
+                    <RadioButton x:Name="RB_2"
                 Style="{StaticResource MaterialDesignTabRadioButton}"
                 Margin="0"
                 IsChecked="False"
                 Content="ПОСЕЩЕНИЯ"/>
-                <RadioButton x:Name="RB_3"
+                    <RadioButton x:Name="RB_3"
                 Style="{StaticResource MaterialDesignTabRadioButton}"
                 Margin="0"
                 IsChecked="False"
                 Content="СПЕЦИАЛИСТЫ"/>
                 </StackPanel>
-            <StackPanel Grid.Column="0" Grid.Row="2"
+                <StackPanel Grid.Column="0" Grid.Row="2"
                     Grid.ColumnSpan="2"
                     Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,30,0">
                     <TextBlock Text="Записей: "/>

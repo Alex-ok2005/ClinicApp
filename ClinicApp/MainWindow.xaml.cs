@@ -19,6 +19,7 @@ using Microsoft.Win32;
 using System.IO;
 using MaterialDesignThemes.Wpf;
 using ClinicApp.Domain;
+using System.ComponentModel;
 
 namespace ClinicApp
 {
@@ -51,6 +52,8 @@ namespace ClinicApp
             InitializeComponent();
             textBlock_CountRecords.DataContext = ClinicVM;
             dummyElement.DataContext = ClinicVM;
+            Doctors_ItemControl.Items.SortDescriptions.Clear();
+            Doctors_ItemControl.Items.SortDescriptions.Add(new SortDescription("Id", ListSortDirection.Ascending));
         }
 
         #region Обработчики комманд
@@ -213,33 +216,51 @@ namespace ClinicApp
                 {
                     if (!(e.OriginalSource as Button).IsCancel)
                     {
-                        if (db.Doctors.Where(p => p.Id == ClinicVM.SelectedDoctor.Id).Count() > 0)
+                        if (ClinicVM.ImageFile.Count() > 0)
                         {
-                            if (ClinicVM.ImageFile.Count() > 0)
+                            if (ClinicVM.SelectedDoctor != null)
                             {
                                 var _doctor = db.Doctors.Where(p => p.Id == ClinicVM.SelectedDoctor.Id).FirstOrDefault();
-                                //_doctor.Name = ClinicVM.SelectedDoctor.Name;
-                                //_doctor.Surname = ClinicVM.SelectedDoctor.Surname;
-                                //_doctor.Patronymic = ClinicVM.SelectedDoctor.Patronymic;
-                                //_doctor.Phone = ClinicVM.SelectedDoctor.Phone;
                                 _doctor.Image = ImgConverter.BitmapToByteArray(_doctor.ImageControl.Source, ClinicVM.ImageFile);
                             }
+                            else
+                                ClinicVM.FictionDoctor.Image = ImgConverter.BitmapToByteArray(ClinicVM.FictionDoctor.ImageControl.Source, ClinicVM.ImageFile);
+                        }
+                        if (ClinicVM.SelectedDoctor != null)
+                            db.Entry(ClinicVM.FictionDoctor).State = EntityState.Unchanged;
+                        db.SaveChanges();
+                        if (ClinicVM.SelectedDoctor != null)
+                        {
+                            db.Entry(ClinicVM.FictionDoctor).State = EntityState.Added;
                         }
                         else
                         {
-                            db.Entry(ClinicVM.SelectedDoctor).State = EntityState.Added;
+                            // Добавим фиктивного доктора
+                            ClinicVM.FictionDoctor = new Doctor();
+                            ClinicVM.FictionDoctor.Id = db.Doctors.Max(p => p.Id) + 1; 
+                            db.Doctors.Add(ClinicVM.FictionDoctor);
                         }
-                        db.SaveChanges();
-                        ClinicVM.DoctorCount = db.Doctors.Count();
+                        ClinicVM.DoctorCount = db.Doctors.Count() - 1;
                     }
                     else
                     {
-                        var _doctor = db.Doctors.Where(p => p.Id == ClinicVM.SelectedDoctor.Id).FirstOrDefault();
-                        _doctor.Name = ClinicVM.SelectedDoctor.Name;
-                        _doctor.Surname = ClinicVM.SelectedDoctor.Surname;
-                        _doctor.Patronymic = ClinicVM.SelectedDoctor.Patronymic;
-                        _doctor.Phone = ClinicVM.SelectedDoctor.Phone;
-                        _doctor.Image = ClinicVM.SelectedDoctor.Image;
+                        if (ClinicVM.SelectedDoctor != null)
+                        {
+                            var _doctor = db.Doctors.Where(p => p.Id == ClinicVM.SelectedDoctor.Id).FirstOrDefault();
+                            _doctor.Name = ClinicVM.SelectedDoctor.Name;
+                            _doctor.Surname = ClinicVM.SelectedDoctor.Surname;
+                            _doctor.Patronymic = ClinicVM.SelectedDoctor.Patronymic;
+                            _doctor.Phone = ClinicVM.SelectedDoctor.Phone;
+                            _doctor.Image = ClinicVM.SelectedDoctor.Image; // Тут надо загружать фото из базы
+                        }
+                        else
+                        {
+                            ClinicVM.FictionDoctor.Name = null;
+                            ClinicVM.FictionDoctor.Surname = null;
+                            ClinicVM.FictionDoctor.Patronymic = null;
+                            ClinicVM.FictionDoctor.Phone = null;
+                            ClinicVM.FictionDoctor.Image = null;
+                        }
                     }
                     ClinicVM.SelectedDoctor = null;
                     ClinicVM.ImageFile = "";

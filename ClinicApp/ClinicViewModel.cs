@@ -66,6 +66,7 @@ namespace ClinicApp
         private Patient selectedPatient; 
         private Visit selectedVisit;
         private Doctor selectedDoctor;
+        private Doctor fictionDoctor;
         public int ActiveTabItem
         {
             get { return activeTabItem; }
@@ -186,12 +187,26 @@ namespace ClinicApp
                 OnPropertyChanged("SelectedDoctor");
             }
         } // Выбранный для изменения визит
+        public Doctor FictionDoctor
+        {
+            get { return fictionDoctor; }
+            set
+            {
+                fictionDoctor = value;
+                OnPropertyChanged("FictionDoctor");
+            }
+        } // Фиктивный доктор
         public string ImageFile { get; set; }
         public ClinicViewModel(ApplicationContext context)
         {
             PatientCount = context.Patients.Count();
             VisitCount = context.Visits.Count();
             DoctorCount = context.Doctors.Count();
+            // Добавим фиктивного доктора
+            FictionDoctor = new Doctor();
+            FictionDoctor.Id = context.Doctors.Max(p => p.Id) + 1;
+            context.Doctors.Add(FictionDoctor);
+            ImageFile = "";
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

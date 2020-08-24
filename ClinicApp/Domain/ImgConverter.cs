@@ -44,34 +44,4 @@ namespace ClinicApp.Domain
             }
         }
     }
-    //    private static readonly ImageConverter _imageConverter = new ImageConverter();
-    //    public static Bitmap GetImageFromByteArray(byte[] byteArray)
-    //    {
-    //        Bitmap bm = (Bitmap)_imageConverter.ConvertFrom(byteArray);
-    //
-    //        if (bm != null && (bm.HorizontalResolution != (int)bm.HorizontalResolution ||
-    //                           bm.VerticalResolution != (int)bm.VerticalResolution))
-    //        {
-    //            // Correct a strange glitch that has been observed in the test program when converting 
-    //            //  from a PNG file image created by CopyImageToByteArray() - the dpi value "drifts" 
-    //            //  slightly away from the nominal integer value
-    //            bm.SetResolution((int)(bm.HorizontalResolution + 0.5f),
-    //                             (int)(bm.VerticalResolution + 0.5f));
-    //        }
-    //
-    //        return bm;
-    //    }
-    //
-    //    public BitmapSource ByteArrayToImage(byte[] byteArrayIn)
-    //    {
-    //
-    //        using (var stream = new MemoryStream())
-    //        {
-    //            JpegBitmapDecoder jpegDecoder = new JpegBitmapDecoder(stream, BitmapCreateOptions.None, BitmapCacheOption.Default);
-    //            stream.Position = 0;
-    //            var bitmapSource = jpegDecoder.Frames[0];
-    //            return bitmapSource;
-    //        }
-    //    }
-    //}
 }
