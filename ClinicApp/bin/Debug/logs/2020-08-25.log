@@ -21,3 +21,5 @@
 2020-08-25 01:31:34.4304 ERROR В методе: Void FlippedChangedCommand_Executed(System.Object, System.Windows.Input.ExecutedRoutedEventArgs) возникло исключение: Ссылка на объект не указывает на экземпляр объекта.
 2020-08-25 01:34:15.2594 ERROR В методе: Int32 SaveChanges() возникло исключение: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
 2020-08-25 01:35:31.4354 ERROR В методе: Int32 SaveChanges() возникло исключение: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+2020-08-25 12:00:41.1577 ERROR В методе: Int32 SaveChanges() возникло исключение: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+2020-08-25 12:19:28.2430 ERROR В методе: Void InitializeDatabase(TContext) возникло исключение: The model backing the 'ApplicationContext' context has changed since the database was created. Consider using Code First Migrations to update the database (http://go.microsoft.com/fwlink/?LinkId=238269).

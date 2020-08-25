@@ -174,8 +174,19 @@ namespace ClinicApp
     // Доктор
     public class Doctor : Person
     {
+        private string specialty;
         [NotMapped]
         public Image ImageControl { get; set; }
+        [MaxLength(50)]
+        public string Specialty // Специализация
+        {
+            get { return specialty; }
+            set
+            {
+                specialty = value;
+                OnPropertyChanged("Specialty");
+            }
+        }
     }
     // Посещение клиники
     public class Visit : INotifyPropertyChanged 

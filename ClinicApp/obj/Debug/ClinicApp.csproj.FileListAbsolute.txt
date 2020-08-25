@@ -36,3 +36,4 @@ K:\Projects\ClinicApp\ClinicApp\obj\Debug\ClinicApp.csprojAssemblyReference.cach
 K:\Projects\ClinicApp\ClinicApp\obj\Debug\ClinicApp.Migrations.AddDoctorTableMigration2.resources
 K:\Projects\ClinicApp\ClinicApp\bin\Debug\System.Drawing.Common.dll
 K:\Projects\ClinicApp\ClinicApp\bin\Debug\System.Windows.Interactivity.dll
+K:\Projects\ClinicApp\ClinicApp\obj\Debug\ClinicApp.Migrations.AddSpecialityDoctorField.resources
