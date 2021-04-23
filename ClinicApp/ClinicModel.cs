@@ -165,7 +165,7 @@ namespace ClinicApp
     // Пациент
     public class Patient : Person
     {
-        public virtual ICollection<Visit> Visits { get; set; }
+        public ICollection<Visit> Visits { get; set; }
         public Patient()
         {
             Visits = new List<Visit>();

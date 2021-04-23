@@ -4,40 +4,129 @@
         <name>MaterialDesignThemes.Wpf</name>
     </assembly>
     <members>
-        <member name="T:MaterialDesignThemes.Wpf.AdornerAssist">
-            <summary>
-            this is a simple utility to add and remove a single adorner to an element since there is no built-in way to do that in xaml.
-            <a href="https://docs.microsoft.com/en-us/dotnet/framework/wpf/controls/adorners-overview">see here</a>
-            </summary>
-        </member>
-        <member name="T:MaterialDesignThemes.Wpf.ButtonAssist">
-            <summary>
-            Helper properties for working with for make round corner.
-            </summary>
-        </member>
         <member name="F:MaterialDesignThemes.Wpf.ButtonAssist.CornerRadiusProperty">
             <summary>
             Controls the corner radius of the surrounding box.
             </summary>
         </member>
-        <member name="T:MaterialDesignThemes.Wpf.Card">
+        <member name="T:MaterialDesignThemes.Wpf.CalendarFormatInfo">
             <summary>
-            A card is a content control, styled according to Material Design guidelines.
+            Provides culture-specific information about the format of calendar.
             </summary>
+        </member>
+        <member name="P:MaterialDesignThemes.Wpf.CalendarFormatInfo.YearMonthPattern">
+            <summary>
+            Gets the custom format string for a year and month value.
+            </summary>
+        </member>
+        <member name="P:MaterialDesignThemes.Wpf.CalendarFormatInfo.ComponentOnePattern">
+            <summary>
+            Gets the custom format string for a component one value.
+            </summary>
+        </member>
+        <member name="P:MaterialDesignThemes.Wpf.CalendarFormatInfo.ComponentTwoPattern">
+            <summary>
+            Gets the custom format string for a component two value.
+            </summary>
+        </member>
+        <member name="P:MaterialDesignThemes.Wpf.CalendarFormatInfo.ComponentThreePattern">
+            <summary>
+            Gets the custom format string for a component three value.
+            </summary>
+        </member>
+        <member name="M:MaterialDesignThemes.Wpf.CalendarFormatInfo.SetYearPattern(System.String[],System.String)">
+            <summary>
+            Sets the culture-specific custom format string for a year value. 
+            </summary>
+            <param name="cultureNames">An array of string that specify the name of culture to set the <paramref name="yearPattern"/> for.</param>
+            <param name="yearPattern">The custom format string for a year value. If null, culture-specific custom format string for a year value is removed.</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="cultureNames"/> is null.</exception>
+        </member>
+        <member name="M:MaterialDesignThemes.Wpf.CalendarFormatInfo.SetYearPattern(System.String,System.String)">
+            <summary>
+            Sets the culture-specific custom format string for a year value.
+            </summary>
+            <param name="cultureName">A string that specify the name of culture to set the <paramref name="yearPattern"/> for.</param>
+            <param name="yearPattern">The custom format string for a year value. If null, culture-specific custom format string for a year value is removed.</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="cultureName"/> is null.</exception>
+        </member>
+        <member name="M:MaterialDesignThemes.Wpf.CalendarFormatInfo.SetDayOfWeekStyle(System.String[],MaterialDesignThemes.Wpf.CalendarFormatInfo.DayOfWeekStyle)">
+            <summary>
+            Sets the culture-specific day of week style.
+            </summary>
+            <param name="cultureNames">An array of string that specify the name of culture to set the <paramref name="dayOfWeekStyle"/> for.</param>
+            <param name="dayOfWeekStyle">A <see cref="T:MaterialDesignThemes.Wpf.CalendarFormatInfo.DayOfWeekStyle"/> to be set.</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="cultureNames"/> is null.</exception>
+        </member>
+        <member name="M:MaterialDesignThemes.Wpf.CalendarFormatInfo.SetDayOfWeekStyle(System.String,MaterialDesignThemes.Wpf.CalendarFormatInfo.DayOfWeekStyle)">
+            <summary>
+            Sets the culture-specific day of week style.
+            </summary>
+            <param name="cultureName">A string that specify the name of culture to set the <paramref name="dayOfWeekStyle"/> for.</param>
+            <param name="dayOfWeekStyle">A <see cref="T:MaterialDesignThemes.Wpf.CalendarFormatInfo.DayOfWeekStyle"/> to be set.</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="cultureName"/> is null.</exception>
+        </member>
+        <member name="M:MaterialDesignThemes.Wpf.CalendarFormatInfo.ResetDayOfWeekStyle(System.String[])">
+            <summary>
+            Resets the culture-specific day of week style to default value.
+            </summary>
+            <param name="cultureNames">An array of string that specify the name of culture to reset.</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="cultureNames"/> is null.</exception>
+        </member>
+        <member name="M:MaterialDesignThemes.Wpf.CalendarFormatInfo.ResetDayOfWeekStyle(System.String)">
+            <summary>
+            Resets the culture-specific day of week style to default value.
+            </summary>
+            <param name="cultureName">A string that specify the name of culture to reset.</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="cultureName"/> is null.</exception>
+        </member>
+        <member name="M:MaterialDesignThemes.Wpf.CalendarFormatInfo.FromCultureInfo(System.Globalization.CultureInfo)">
+            <summary>
+            Creates a <see cref="T:MaterialDesignThemes.Wpf.CalendarFormatInfo"/> from the <see cref="T:System.Globalization.CultureInfo"/>.
+            </summary>
+            <param name="cultureInfo">A <see cref="T:System.Globalization.CultureInfo"/> that specifies the culture to get the date format.</param>
+            <returns>The <see cref="T:MaterialDesignThemes.Wpf.CalendarFormatInfo"/> object that this method creates.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="cultureInfo"/> is null.</exception>
+        </member>
+        <member name="T:MaterialDesignThemes.Wpf.CalendarFormatInfo.DayOfWeekStyle">
+            <summary>
+            Represents a day of week style.
+            </summary>
+        </member>
+        <member name="P:MaterialDesignThemes.Wpf.CalendarFormatInfo.DayOfWeekStyle.Pattern">
+            <summary>
+            Gets the custom format string for a day of week value.
+            </summary>
+        </member>
+        <member name="P:MaterialDesignThemes.Wpf.CalendarFormatInfo.DayOfWeekStyle.Separator">
+            <summary>
+            Gets the string that separates MonthDay and DayOfWeek.
+            </summary>
+        </member>
+        <member name="P:MaterialDesignThemes.Wpf.CalendarFormatInfo.DayOfWeekStyle.IsFirst">
+            <summary>
+            Gets a value indicating whether DayOfWeek is before MonthDay.
+            </summary>
+        </member>
+        <member name="M:MaterialDesignThemes.Wpf.CalendarFormatInfo.DayOfWeekStyle.#ctor(System.String,System.String,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MaterialDesignThemes.Wpf.CalendarFormatInfo.DayOfWeekStyle"/> struct.
+            </summary>
+            <param name="pattern">A custom format string for a day of week value.</param>
+            <param name="separator">A string that separates MonthDay and DayOfWeek.</param>
+            <param name="isFirst">A value indicating whether DayOfWeek is before MonthDay.</param>
+        </member>
+        <member name="M:MaterialDesignThemes.Wpf.CalendarFormatInfo.DayOfWeekStyle.Parse(System.String)">
+            <summary>
+            Extracts the <see cref="T:MaterialDesignThemes.Wpf.CalendarFormatInfo.DayOfWeekStyle"/> from the date format string.
+            </summary>
+            <param name="s">the date format string.</param>
+            <returns>The <see cref="T:MaterialDesignThemes.Wpf.CalendarFormatInfo.DayOfWeekStyle"/> struct.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="s"/> is null.</exception>
         </member>
         <member name="P:MaterialDesignThemes.Wpf.Chip.IsDeletable">
             <summary>
             Indicates if the delete button should be visible.
-            </summary>
-        </member>
-        <member name="F:MaterialDesignThemes.Wpf.Chip.DeleteClickEvent">
-            <summary>
-            Event correspond to delete button left mouse button click 
-            </summary>
-        </member>
-        <member name="E:MaterialDesignThemes.Wpf.Chip.DeleteClick">
-            <summary>
-            Add / Remove DeleteClickEvent handler 
             </summary>
         </member>
         <member name="M:MaterialDesignThemes.Wpf.ClockItemButton.OnClick">
@@ -71,6 +160,14 @@
                 1) DateTime Calendar.DisplayDate
                 2) DateTime? Calendar.SelectedDate
             </remarks>
+        </member>
+        <member name="F:MaterialDesignThemes.Wpf.Converters.CircularProgressBar.ArcEndPointConverter.ParameterMidPoint">
+            <summary>
+            CircularProgressBar draws two arcs to support a full circle at 100 %.
+            With one arc at 100 % the start point is identical the end point, so nothing is drawn.
+            Midpoint at half of current percentage is the endpoint of the first arc
+            and the start point of the second arc.
+            </summary>
         </member>
         <member name="T:MaterialDesignThemes.Wpf.Converters.HintProxyFabricConverter">
             <summary>
@@ -112,6 +209,11 @@
             <param name="parameter"></param>
             <param name="culture"></param>
             <returns></returns>
+        </member>
+        <member name="M:MaterialDesignThemes.Wpf.DataGridAssist.AllowDirectEditWithoutFocus(System.Object,System.Windows.Input.MouseButtonEventArgs)">
+            <summary>
+            Allows editing of components inside of a datagrid cell with a single left click.
+            </summary>
         </member>
         <member name="P:MaterialDesignThemes.Wpf.DataGridTextColumn.MaxLength">
             <summary>
@@ -238,6 +340,19 @@
             <param name="openedEventHandler">Allows access to opened event which would otherwise have been subscribed to on a instance.</param>
             <param name="closingEventHandler">Allows access to closing event which would otherwise have been subscribed to on a instance.</param>
             <returns>Task result is the parameter used to close the dialog, typically what is passed to the <see cref="F:MaterialDesignThemes.Wpf.DialogHost.CloseDialogCommand"/> command.</returns>
+        </member>
+        <member name="M:MaterialDesignThemes.Wpf.DialogHost.Close(System.Object)">
+            <summary>
+             Close a modal dialog.
+            </summary>
+            <param name="dialogIdentifier"> of the instance where the dialog should be closed. Typically this will match an identifer set in XAML. </param>
+        </member>
+        <member name="M:MaterialDesignThemes.Wpf.DialogHost.Close(System.Object,System.Object)">
+            <summary>
+             Close a modal dialog.
+            </summary>
+            <param name="dialogIdentifier"> of the instance where the dialog should be closed. Typically this will match an identifer set in XAML. </param>
+            <param name="parameter"> to provide to close handler</param>
         </member>
         <member name="P:MaterialDesignThemes.Wpf.DialogHost.Identifier">
             <summary>
@@ -483,99 +598,6 @@
             <param name="leaf"></param>
             <returns></returns>
         </member>
-        <member name="F:MaterialDesignThemes.Wpf.HintAssist.HintProperty">
-            <summary>
-            The hint property
-            </summary>
-        </member>
-        <member name="M:MaterialDesignThemes.Wpf.HintAssist.SetHint(System.Windows.DependencyObject,System.Object)">
-            <summary>
-            Sets the hint.
-            </summary>
-            <param name="element">The element.</param>
-            <param name="value">The value.</param>
-        </member>
-        <member name="M:MaterialDesignThemes.Wpf.HintAssist.GetHint(System.Windows.DependencyObject)">
-            <summary>
-            Gets the hint.
-            </summary>
-            <param name="element">The element.</param>
-            <returns>
-            The <see cref="T:System.String" />.
-            </returns>
-        </member>
-        <member name="F:MaterialDesignThemes.Wpf.HintAssist.HintOpacityProperty">
-            <summary>
-            The hint opacity property
-            </summary>
-        </member>
-        <member name="M:MaterialDesignThemes.Wpf.HintAssist.GetHintOpacityProperty(System.Windows.DependencyObject)">
-            <summary>
-            Gets the text box view margin.
-            </summary>
-            <param name="element">The element.</param>
-            <returns>
-            The <see cref="T:System.Windows.Thickness" />.
-            </returns>
-        </member>
-        <member name="M:MaterialDesignThemes.Wpf.HintAssist.SetHintOpacity(System.Windows.DependencyObject,System.Double)">
-            <summary>
-            Sets the hint opacity.
-            </summary>
-            <param name="element">The element.</param>
-            <param name="value">The value.</param>
-        </member>
-        <member name="F:MaterialDesignThemes.Wpf.HintAssist.ForegroundProperty">
-            <summary>
-            The color for the text of a focused control.
-            </summary>
-        </member>
-        <member name="M:MaterialDesignThemes.Wpf.HintAssist.GetForeground(System.Windows.DependencyObject)">
-            <summary>
-            Gets the color for the text of a focused control.
-            </summary>
-        </member>
-        <member name="M:MaterialDesignThemes.Wpf.HintAssist.SetForeground(System.Windows.DependencyObject,System.Windows.Media.Brush)">
-            <summary>
-            Sets the color for the text of a focused control.
-            </summary>
-        </member>
-        <member name="F:MaterialDesignThemes.Wpf.HintAssist.BackgroundProperty">
-            <summary>
-            The color for the background of a focused control.
-            </summary>
-        </member>
-        <member name="M:MaterialDesignThemes.Wpf.HintAssist.GetBackground(System.Windows.DependencyObject)">
-            <summary>
-            Gets the color for the background of a focused control.
-            </summary>
-        </member>
-        <member name="M:MaterialDesignThemes.Wpf.HintAssist.SetBackground(System.Windows.DependencyObject,System.Windows.Media.Brush)">
-            <summary>
-            Sets the color for the background of a focused control.
-            </summary>
-        </member>
-        <member name="F:MaterialDesignThemes.Wpf.HintAssist.HelperTextProperty">
-            <summary>
-            The HelperText property
-            </summary>
-        </member>
-        <member name="M:MaterialDesignThemes.Wpf.HintAssist.SetHelperText(System.Windows.DependencyObject,System.Object)">
-            <summary>
-            Sets the HelperText.
-            </summary>
-            <param name="element">The element.</param>
-            <param name="value">The value.</param>
-        </member>
-        <member name="M:MaterialDesignThemes.Wpf.HintAssist.GetHelperText(System.Windows.DependencyObject)">
-            <summary>
-            Gets the HelperText.
-            </summary>
-            <param name="element">The element.</param>
-            <returns>
-            The <see cref="T:System.String" />.
-            </returns>
-        </member>
         <member name="T:MaterialDesignThemes.Wpf.Icon">
             <summary>
             Displays an icon image/path, according to the specified <see cref="P:MaterialDesignThemes.Wpf.Icon.Type"/> name.
@@ -696,6 +718,11 @@
         <member name="T:MaterialDesignThemes.Wpf.MessageQueueExtension">
             <summary>
             Provides shorthand to initialise a new <see cref="T:MaterialDesignThemes.Wpf.SnackbarMessageQueue"/> for a <see cref="T:MaterialDesignThemes.Wpf.Snackbar"/>.
+            </summary>
+        </member>
+        <member name="F:MaterialDesignThemes.Wpf.NavigationRailAssist.FloatingContentProperty">
+            <summary>
+            Floating Content (ex: Button) on navigation rail (optional)
             </summary>
         </member>
         <member name="P:MaterialDesignThemes.Wpf.PackIcon.Kind">
@@ -1194,10 +1221,30 @@
             </para>
             </summary>
         </member>
+        <member name="F:MaterialDesignThemes.Wpf.SnackbarMessageQueue._closeSnackbarEvent">
+            <summary>
+            If set, the active snackbar will be closed.
+            </summary>
+            <remarks>
+            Available only while the snackbar is displayed.
+            Should be locked by <see cref="F:MaterialDesignThemes.Wpf.SnackbarMessageQueue._snackbarMessagesLock"/>.
+            </remarks>
+        </member>
+        <member name="P:MaterialDesignThemes.Wpf.SnackbarMessageQueue.Dispatcher">
+            <summary>
+            Gets the <see cref="T:System.Windows.Threading.Dispatcher"/> this <see cref="T:MaterialDesignThemes.Wpf.SnackbarMessageQueue"/> is associated with.
+            </summary>
+        </member>
         <member name="P:MaterialDesignThemes.Wpf.SnackbarMessageQueue.IgnoreDuplicate">
             <summary>
             Gets or sets a value that indicates whether this message queue displays messages without discarding duplicates. 
             True to show every message even if there are duplicates.
+            </summary>
+        </member>
+        <member name="M:MaterialDesignThemes.Wpf.SnackbarMessageQueue.Clear">
+            <summary>
+            Clear the message queue and close the active snackbar.
+            This method can be called from any thread.
             </summary>
         </member>
         <member name="P:MaterialDesignThemes.Wpf.SnackbarMessageQueueItem.Content">
@@ -1241,6 +1288,11 @@
             </summary>
             <param name="item">Item to check for duplicate</param>
             <returns><c>true</c> if given item is a duplicate to this, <c>false</c> otherwise</returns>
+        </member>
+        <member name="F:MaterialDesignThemes.Wpf.TextBlockAssist.AutoToolTipProperty">
+            <summary>
+            Automatic ToolTip for TextBlock or TextBoxBase if containing text is trimmed
+            </summary>
         </member>
         <member name="T:MaterialDesignThemes.Wpf.TextFieldAssist">
             <summary>
@@ -1348,6 +1400,11 @@
             SuffixText dependency property
             </summary>
         </member>
+        <member name="F:MaterialDesignThemes.Wpf.TextFieldAssist.PrefixTextProperty">
+            <summary>
+            PrefixText dependency property
+            </summary>
+        </member>
         <member name="M:MaterialDesignThemes.Wpf.TextFieldAssist.ApplyTextBoxViewMargin(System.Windows.Controls.Control,System.Windows.Thickness)">
             <summary>
             Applies the text box view margin.
@@ -1361,6 +1418,14 @@
             </summary>
             <param name="dependencyObject">The dependency object.</param>
             <param name="dependencyPropertyChangedEventArgs">The dependency property changed event args.</param>
+        </member>
+        <member name="M:MaterialDesignThemes.Wpf.Theme.GetSystemTheme">
+            <summary>
+            Get the current Windows theme.
+            Based on ControlzEx
+            https://github.com/ControlzEx/ControlzEx/blob/48230bb023c588e1b7eb86ea83f7ddf7d25be735/src/ControlzEx/Theming/WindowsThemeHelper.cs#L19
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:MaterialDesignThemes.Wpf.TimePicker.OnGotFocus(System.Object,System.Windows.RoutedEventArgs)">
             <summary>
@@ -1577,6 +1642,13 @@
             <summary>
             To be used at <see cref="T:System.Windows.Controls.TreeViewItem"/> level, or to be returned by <see cref="!:AdditionalTemplateSelector"/>
             implementors when the additional template associated with a tree should not be used.
+            </summary>
+        </member>
+        <member name="T:MaterialDesignThemes.Wpf.UIElementExtensions">
+            <summary>
+            This is a simple utility to add and remove a single adorner to an element
+            since there is no built-in way to do that in xaml.
+            <a href="https://docs.microsoft.com/en-us/dotnet/framework/wpf/controls/adorners-overview">See here</a>
             </summary>
         </member>
         <member name="T:MaterialDesignThemes.Wpf.Underline">

@@ -204,7 +204,9 @@ namespace ClinicApp
             DoctorCount = context.Doctors.Count();
             // Добавим фиктивного доктора
             FictionDoctor = new Doctor();
-            FictionDoctor.Id = context.Doctors.Max(p => p.Id) + 1;
+            if (context.Doctors.Count() > 0)
+                FictionDoctor.Id = context.Doctors.Max(p => p.Id) + 1;
+            else FictionDoctor.Id = 1;
             context.Doctors.Add(FictionDoctor);
             ImageFile = "";
         }
